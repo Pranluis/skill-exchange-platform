@@ -1,0 +1,320 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navbar{
+    background-color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 100%;
+    justify-content: space-between;
+    position: fixed;
+    z-index: 1000;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.navbar .otheritems .navigator ul{
+    list-style: none;
+    display: flex;
+    gap: 38px;
+}
+
+.navbar .otheritems .navigator ul a{
+    text-decoration: none;
+    font-size: 22px;
+    color: rgb(101, 99, 99);
+}
+
+.navbar .otheritems{
+    display: flex;
+    align-items: center;
+    gap: 55px;
+}
+
+.navbar .otheritems .profile{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 3px;
+    border: 1px solid rgb(192, 187, 187);
+    border-radius: 28px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.navbar .otheritems .profile .profile-pic img{
+    border-radius: 100%;
+    margin-top: 3px;
+    margin-left: 3px;
+}
+
+.navbar .otheritems .profile .name{
+    margin-right: 10px;
+}
+
+.navbar .otheritems .profile .downicon{
+    margin-right: 10px;
+}
+
+.navbar .dropdown{
+    width: 190px;
+    border-radius: 10px;
+    background-color: white;
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    padding-right: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    display: none; /* Initially hidden */
+    z-index: 1000;
+}
+
+.navbar .dropdown ul{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+}
+
+.navbar .dropdown ul a{
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+}
+
+.dropdown-button {
+    background-color: #007BFF;
+    color: white;
+    padding: 4px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.content{
+    padding: 100px 20px 20px 20px;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    display: flex;
+    gap: 20px;
+    
+}
+
+.content .box1{
+    border-radius: 15px;
+    height: 600px;
+    width: 20%;
+    background-color: white;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    position: fixed;
+}
+
+.content .box2{
+    border-radius: 15px;
+    height: 920px;
+    margin-left: 320px;
+    width: 55%;
+    background-color: rgb(144, 119, 87);
+}
+
+.content .box3{
+    border-radius: 15px;
+    height: 120px;
+    width: 25%;
+    background-color: rgb(225, 244, 139);
+}
+
+.iconbutton {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 4px;
+    border-radius: 5px;
+}
+
+.iconbutton:hover{
+    background-color: rgb(227, 221, 221);
+}
+
+.content .box1{
+    padding: 10px;
+}
+
+.content .box1 .edit-button{
+    display: flex;
+    justify-content: end;
+
+
+}
+
+.content .box1 .edit-button i{
+    color: rgb(101, 99, 99);
+}
+
+.content .box1 .profile-main img{
+    border-radius: 100%;
+}
+
+.content .box1 .profile-main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    padding-bottom: 15px;
+}
+
+.content .box1 .name-main{
+    font-weight: 700;
+    font-size: large;
+}
+
+
+.content .box1 .email-main{
+    color: rgb(101, 99, 99);
+    font-size: small;
+}
+
+.content .box1 .profile-main .analytics{
+    display: flex;
+    align-items: center;
+    margin-top: 16px;
+    justify-content: center;
+    gap: 25px;
+}
+
+
+.content .box1 .profile-main .analytics .graph i{
+    color: green;
+}
+
+.content .box1 .profile-main .analytics .ratings i{
+    color: #007BFF;
+}
+
+.content .box1 .profile-main .analytics .points i{
+    color: gold;
+
+}
+
+.vertical-line {
+    border-left: 1px solid rgb(155, 151, 151); /* Line width and color */
+    height: 20px; 
+    
+}
+
+.horizontal-line {
+    border-bottom: 1px solid rgb(202, 196, 196); /* Line width and color */
+    height: 20px; 
+    
+}
+
+.content .box1 .line{
+    margin-top: 20px;
+}
+
+.content .box1 .menulist{
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+
+.content .box1 .menulist a{
+    text-decoration: none;
+}
+
+.content .box1 .menulist .home{
+    padding: 10px; 
+    background-color: rgb(194, 194, 194);
+    border-radius: 8px;
+}
+.content .box1 .menulist .home i{
+    margin-right: 10px;
+    color: rgb(96, 57, 170);
+}
+
+.content .box1 .menulist .home span{
+    font-weight: 500;
+    color: rgb(96, 57, 170);
+}
+.content .box1 .menulist .home:hover{
+    background-color: rgb(194, 194, 194);
+    border-radius: 8px;
+}
+
+
+.content .box1 .menulist .course{
+    padding: 10px; 
+}
+.content .box1 .menulist .course i{
+    margin-right: 10px;
+    color: rgb(96, 57, 170);
+}
+
+.content .box1 .menulist .course span{
+    font-weight: 500;
+    color: rgb(96, 57, 170);
+}
+.content .box1 .menulist .course:hover{
+    background-color: rgb(194, 194, 194);
+    border-radius: 8px;
+}
+
+.edit-button {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.tooltip {
+    visibility: hidden;
+    width: 100px;
+    background-color: #6b6969;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    top: 125%; /* Position the tooltip below the icon */
+    left: 300px;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip::after {
+    content: "";
+    position: absolute;
+    top: -5px; /* At the bottom of the tooltip */
+    left: 15%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #333 transparent; /* Arrow pointing up */
+}
+
+.edit-button:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.icon {
+    width: 24px;
+    height: 24px;
+    fill: #000;
+}

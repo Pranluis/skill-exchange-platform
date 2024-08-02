@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/static/css/news.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Latest News</h1>
+        <div class="grid">
+            {% for article in articles %}
+                {% if article.urlToImage %}
+                <div class="card">
+                    <h2>{{ article.title }}</h2>
+                    <p>{{ article.description }}</p>
+                    {% if article.urlToImage %}
+                        <img src="{{ article.urlToImage }}" alt="Image">
+                    {% endif %}
+                    <a href="{{ article.url }}" target="_blank">Read more</a>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

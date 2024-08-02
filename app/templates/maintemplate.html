@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/static/css/maintemp.css">
+    <link rel="stylesheet" href="/static/css/profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="logo">
+            <img src="/static/images/logo.png" alt="logo" width="100" height="40">
+        </div>
+        <div class="otheritems">
+            <div class="navigator">
+                <ul>
+                    <li><a href="{{url_for('main.dashboard')}}"><i class="fa-solid fa-house"></i></a></li>
+                    <li><a href="#"><i class="fa-solid fa-book"></i></a></li>
+                    <li><a href="#"><i class="fa-solid fa-right-left"></i></a></li>
+                    <li><a href="#"><i class="fa-solid fa-chalkboard-user"></i></a></li>
+                    <li><a href="{{url_for('main.news')}}"><i class="fa-solid fa-newspaper"></i></a></li>
+                </ul>
+            </div>
+            <div class="profile">
+                <div class="profile-pic">
+                    {% if current_user.image %}
+                    <img src="data:image/png;base64,{{ current_user.image | b64encode }}" alt="" width="40px"
+                        height="40px">
+                    {% else %}
+                    <img src="/static/images/blank.webp" alt="" width="40px" height="40px">
+                    {% endif %}
+                </div>
+                <div class="name">
+                    <p>{{current_user.name}}</p>
+                </div>
+                <div class="downicon">
+                    <button id="dropdownButton" class="dropdown-button">
+                        <i class="fa-solid fa-caret-down"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="dropdown" id="dropdown">
+                <ul>
+                    <li><a href="#">
+                            <div class="iconbutton">
+                                <i class="fa-solid fa-user"></i>
+                                <span>Profile</span>
+                            </div>
+                        </a></li>
+                    <li><a href="#">
+                            <div class="iconbutton">
+                                <i class="fa-solid fa-lock"></i>
+                                <span>Change Password</span>
+                            </div>
+                        </a></li>
+                    <li></li>
+                    <li><a href="{{url_for('main.logout')}}">
+                            <div class="iconbutton">
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                                <span>Logout</span>
+                            </div>
+                        </a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="dropdown" id="dropdown">
+        <ul>
+            <li><a href="#">
+                    <div class="iconbutton">
+                        <i class="fa-solid fa-user"></i>
+                        <span>Profile</span>
+                    </div>
+                </a></li>
+            <li><a href="#">
+                    <div class="iconbutton">
+                        <i class="fa-solid fa-lock"></i>
+                        <span>Change Password</span>
+                    </div>
+                </a></li>
+            <li></li>
+            <li><a href="{{url_for('main.logout')}}">
+                    <div class="iconbutton">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <span>Logout</span>
+                    </div>
+                </a></li>
+        </ul>
+    </div>
+    </div>
+    </div>
+    <div class="content-main">
+        <div class="sidemenu">
+            <div class="box1">
+                <div class="menulist">
+                    <a href="#">
+                        <div class="home">
+                            <i class="fa-solid fa-address-book"></i>
+
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="course">
+                            <i class="fa-solid fa-calendar-days"></i>
+
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="course">
+                            <i class="fa-regular fa-message"></i>
+
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="course">
+                            <i class="fa-regular fa-bell"></i>
+
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const dropdownButton = document.getElementById('dropdownButton');
+                const dropdownContent = document.getElementById('dropdown');
+
+                dropdownButton.addEventListener('click', function () {
+                    if (dropdownContent.style.display === 'block') {
+                        dropdownContent.style.display = 'none';
+                    } else {
+                        dropdownContent.style.display = 'block';
+                    }
+                });
+
+                // Close the dropdown if the user clicks outside of it
+                window.addEventListener('click', function (event) {
+                    if (!dropdownButton.contains(event.target)) {
+                        dropdownContent.style.display = 'none';
+                    }
+                });
+            });
+
+
+        </script>
+</body>
+
+</html>

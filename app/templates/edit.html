@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+         document.addEventListener('DOMContentLoaded', (event) => {
+            const skills = ["Python", "JavaScript", "HTML", "CSS", "Java", "C++"];
+            const domains = ["Web Development", "Data Science", "Cyber Security", "Machine Learning", "Marketing", "Sales"];
+            
+            const skillsInput = document.getElementById('skills_input');
+            const skillsList = document.getElementById('skills_list');
+            const selectedSkillsContainer = document.getElementById('selected_skills');
+            
+            const domainsInput = document.getElementById('domains_input');
+            const domainsList = document.getElementById('domains_list');
+            const selectedDomainsContainer = document.getElementById('selected_domains');
+            
+            skillsInput.addEventListener('input', () => {
+                updateList(skillsInput, skillsList, skills, selectSkill);
+            });
+
+            domainsInput.addEventListener('input', () => {
+                updateList(domainsInput, domainsList, domains, selectDomain);
+            });
+
+            function updateList(input, list, data, callback) {
+                const query = input.value.toLowerCase();
+                list.innerHTML = '';
+                if (query) {
+                    const filteredData = data.filter(item => item.toLowerCase().includes(query));
+                    filteredData.forEach(item => {
+                        const listItem = document.createElement('div');
+                        listItem.textContent = item;
+                        listItem.className = 'dropdown-item';
+                        listItem.onclick = () => callback(item);
+                        list.appendChild(listItem);
+                    });
+                    list.classList.add('show');
+                } else {
+                    list.classList.remove('show');
+                }
+            }
+
+            function selectSkill(skill) {
+                addBubble(skill, selectedSkillsContainer, 'skills_offered[]');
+                skillsInput.value = '';
+                skillsList.innerHTML = '';
+                skillsList.classList.remove('show');
+            }
+
+            function selectDomain(domain) {
+                addBubble(domain, selectedDomainsContainer, 'domains_offered[]');
+                domainsInput.value = '';
+                domainsList.innerHTML = '';
+                domainsList.classList.remove('show');
+            }
+
+            function addBubble(item, container, inputName) {
+                if (!Array.from(container.children).some(bubble => bubble.textContent.includes(item))) {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'bubble';
+                    itemDiv.innerHTML = `${item} <button onclick="removeItem(this)"><i class="fa-solid fa-xmark"></i></button>`;
+                    const hiddenInput = document.createElement('input');
+                    hiddenInput.type = 'hidden';
+                    hiddenInput.name = inputName;
+                    hiddenInput.value = item;
+                    itemDiv.appendChild(hiddenInput);
+                    container.appendChild(itemDiv);
+                }
+            }
+
+            window.removeItem = function(button) {
+                const bubble = button.parentElement;
+                bubble.parentElement.removeChild(bubble);
+            };
+        });
+
+        function addInput(divName) {
+            var container = document.getElementById(divName);
+            var newDiv = document.createElement('div');
+            newDiv.className = 'weblinks-box';
+
+            newDiv.innerHTML = '<div>' +
+                '<select id="web-links-type" name="web-links-type[]">' +
+                '<option value="none">Select</option>' +
+                '<option value="Personal">Personal</option>' +
+                '<option value="Twitter">Twitter</option>' +
+                '<option value="Facebook">Facebook</option>' +
+                '<option value="Github">Github</option>' +
+                '</select>' +
+                '<input type="text" name="social_media_links[]">' +
+                '<span class="remove-btn" onclick="removeInput(this)">Remove</span>' +
+                '</div>';
+            container.appendChild(newDiv);
+        }
+
+        function removeInput(element) {
+            element.parentElement.parentElement.remove();
+        }
+        function showImagePreview(event) {
+            const imageInput = event.target;
+            const imagePreviewImg = document.getElementById('imagePreviewImg');
+            const svgIcon = document.getElementById('svgIcon');
+            const uploadText = document.getElementById('uploadText');
+
+            const file = imageInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                imagePreviewImg.src = e.target.result;
+                imagePreviewImg.style.display = 'block';
+                svgIcon.style.display = 'none';
+                uploadText.style.display = 'none';
+            };
+
+            if (file) {
+                reader.readAsDataURL(file);
+            } else {
+                imagePreviewImg.src = '#';
+                imagePreviewImg.style.display = 'none';
+                svgIcon.style.display = 'flex';
+                uploadText.style.display = 'flex';
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="/static/css/edit.css">
+    <link rel="stylesheet" href="/static/css/aboutedit.css">
+    <style>
+        .custum-file-upload {
+            height: 150px;
+            width: 250px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #cacaca;
+            background-color: rgba(255, 255, 255, 1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            display: inline-block;
+            box-shadow: 0px 48px 35px -48px rgba(0, 0, 0, 0.1);
+        }
+
+        .custum-file-upload .icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            display: inline-block;
+        }
+
+        .custum-file-upload .icon svg {
+            height: 80px;
+            fill: rgba(75, 85, 99, 1);
+        }
+
+        .custum-file-upload input[type="file"] {
+            display: none;
+        }
+
+        .custum-file-upload .text {
+            display: inline-block;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .custum-file-upload .text span {
+            font-weight: 400;
+            color: rgba(75, 85, 99, 1);
+        }
+
+        .preview {
+            display: none;
+            max-width: 100px;
+            max-height: 100px;
+            margin-top: 10px;
+        }
+
+
+        .container {
+            width: 100%;
+            margin-left: 40px;
+            margin: 20px auto;
+            padding: 20px 20px 20px 85px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .radio-label {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 2px solid #ccc;
+            border-radius: 25px;
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .radio-label i {
+            margin-right: 6px;
+        }
+
+        .radio-label:hover {
+            background-color: #f0f0f0;
+        }
+
+        .radio-input {
+            display: none;
+        }
+
+        .radio-input:checked+.radio-label {
+            background-color: #007bff;
+            color: #fff;
+            border-color: #007bff;
+        }
+
+        .row3-group {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    {% extends "base.html" %}
+    {% block title %}Register{% endblock %}
+    {% block content %}
+    {% include 'maintemplate.html' %}
+    <div class="container">
+        <div class="row0">
+            <div class="heading">
+                <h1>
+                    <i class="fa-solid fa-pen-to-square"></i> Edit
+                </h1>
+            </div>
+            <div class="edit-profile-bar">
+                {% include 'editbar.html' %}
+            </div>
+        </div>
+        <!-- {% include 'profileform.html' %} -->
+    </div>
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const radioButtons = document.querySelectorAll('input[name="user-type"]');
+        const collegeStudentFields = document.getElementById('college-student-fields');
+        const schoolStudentFields = document.getElementById('school-student-fields');
+        const professtionFields = document.getElementById('professional-feilds');
+        const freshersFields = document.getElementById('fresher-fields');
+        const organizerFields = document.getElementById('organizer-fields');
+
+        function toggleFields() {
+            collegeStudentFields.style.display = 'none';
+            schoolStudentFields.style.display = 'none';
+            professtionFields.style.display = 'none';
+            freshersFields.style.display = 'none';
+            organizerFields.style.display = 'none';
+
+            radioButtons.forEach(function (radio) {
+                if (radio.checked) {
+                    if (radio.value === 'option1') {
+                        collegeStudentFields.style.display = 'block';
+                    } else if (radio.value === 'option2') {
+                        schoolStudentFields.style.display = 'block';
+                    } else if (radio.value === 'option3') {
+                        professtionFields.style.display = 'block';
+                    } else if (radio.value === 'option4') {
+                        freshersFields.style.display = 'block';
+                    } else if (radio.value === 'option5') {
+                        organizerFields.style.display = 'block';
+                    }
+                }
+            });
+        }
+
+        radioButtons.forEach(function (radio) {
+            radio.addEventListener('change', toggleFields);
+        });
+
+        // Call the function on page load to set the correct initial state
+        toggleFields();
+    });
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+            const fields = [
+                {id: 'course', list: ["Btech", "Mtech", "BBA"]},
+                {id: 'specialization', list: ["AI", "Data Science", "Web Development"]},
+                {id: 'school_class', list: ["10th", "12th", "Graduation"]},
+                {id: 'work_experience', list: ["0-1 years", "2-3 years", "4-5 years"]},
+                {id: 'current_sector', list: ["IT", "Healthcare", "Finance"]},
+                {id: 'designation', list: ["Intern", "Junior Developer", "Senior Developer"]},
+                {id: 'organization_type', list: ["Startup", "MNC", "Government"]}
+            ];
+
+            fields.forEach(field => {
+                const inputs = document.querySelectorAll(`#${field.id}_input`);
+                inputs.forEach(input => {
+                    const list = input.nextElementSibling;
+
+                    input.addEventListener('input', () => {
+                        updateDropdown(input, list, field.list, value => selectItem(input, list, value));
+                    });
+
+                    input.addEventListener('focus', () => {
+                        updateDropdown(input, list, field.list, value => selectItem(input, list, value));
+                    });
+
+                    document.addEventListener('click', (event) => {
+                        if (!input.contains(event.target) && !list.contains(event.target)) {
+                            list.classList.remove('show');
+                        }
+                    });
+                });
+            });
+
+            function updateDropdown(input, list, items, selectFunction) {
+                const query = input.value.toLowerCase();
+                list.innerHTML = '';
+                if (query) {
+                    const filteredItems = items.filter(item => item.toLowerCase().includes(query));
+                    filteredItems.forEach(item => {
+                        const listItem = document.createElement('div');
+                        listItem.textContent = item;
+                        listItem.className = 'dropdown-list-item';
+                        listItem.onclick = () => selectFunction(item);
+                        list.appendChild(listItem);
+                    });
+                } else {
+                    items.forEach(item => {
+                        const listItem = document.createElement('div');
+                        listItem.textContent = item;
+                        listItem.className = 'dropdown-list-item';
+                        listItem.onclick = () => selectFunction(item);
+                        list.appendChild(listItem);
+                    });
+                }
+                list.classList.add('show');
+            }
+
+            function selectItem(input, list, value) {
+                input.value = value;
+                list.classList.remove('show');
+            }
+        });
+</script>
+
+
+</html>
+{% endblock %}

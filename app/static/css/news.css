@@ -1,0 +1,147 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.card {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    flex: 1 1 calc(33.333% - 20px);
+    box-sizing: border-box;
+}
+
+.card img {
+    max-width: 100%;
+    height: auto;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 15px;
+}
+
+.card h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 1em;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.card a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.card a:hover {
+    text-decoration: underline;
+}
+
+
+.box1{
+    border-radius: 15px;
+    height: 230px;
+    margin-top: 20px;
+    width: 55px;
+    background-color: white;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    position: fixed;
+}
+
+
+.iconbutton {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 4px;
+    border-radius: 5px;
+}
+
+.iconbutton:hover{
+    background-color: rgb(227, 221, 221);
+}
+
+.box1{
+    padding: 10px;
+}
+
+.box1 .menulist{
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+
+.box1 .menulist a{
+    text-decoration: none;
+}
+
+.box1 .menulist .home{
+    padding: 10px; 
+}
+.box1 .menulist .home i{
+    margin-right: 10px;
+    color: rgb(96, 57, 170);
+}
+
+.box1 .menulist .home span{
+    font-weight: 500;
+    color: rgb(96, 57, 170);
+}
+.box1 .menulist .home:hover{
+    background-color: rgb(194, 194, 194);
+    border-radius: 8px;
+}
+
+
+.box1 .menulist .course{
+    padding: 10px; 
+}
+.box1 .menulist .course i{
+    margin-right: 10px;
+    color: rgb(96, 57, 170);
+}
+
+.box1 .menulist .course span{
+    font-weight: 500;
+    color: rgb(96, 57, 170);
+}
+.box1 .menulist .course:hover{
+    background-color: rgb(194, 194, 194);
+    border-radius: 8px;
+}
+
+.content-main{
+    padding-top: 65px;
+}
+
+
+.sidemenu{
+    margin-left: 10px;
+}

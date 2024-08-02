@@ -1,0 +1,482 @@
+.addimage .custum-file-upload {
+    margin-top: 8px;
+}
+
+.row1 {
+    display: flex;
+}
+
+.row1 .basic-first {
+    display: flex;
+    margin-left: 80px;
+    gap: 80px;
+}
+
+.basic-first input {
+    border-radius: 4px;
+    width: 290px;
+    height: 50px;
+    border: none;
+    outline: none;
+    border: 2px solid #7b777d;
+    font-size: 14px;
+    padding: 8px 15px 8px 14px;
+    background: transparent;
+}
+
+
+.row1 .basic-second {
+    display: flex;
+    margin-left: 80px;
+    gap: 80px;
+}
+
+.basic-second input {
+    border-radius: 4px;
+    width: 290px;
+    border: none;
+    outline: none;
+    height: 50px;
+    border: 2px solid #7b777d;
+    font-size: 14px;
+    padding: 8px 15px 8px 14px;
+    background: transparent;
+}
+
+.basicform {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#gender {
+    border-radius: 4px;
+    width: 290px;
+    border: none;
+    outline: none;
+    height: 50px;
+    border: 2px solid #7b777d;
+    font-size: 14px;
+    padding: 8px 15px 8px 14px;
+    background: transparent;
+}
+
+#martial {
+    border-radius: 4px;
+    width: 290px;
+    border: none;
+    outline: none;
+    height: 50px;
+    border: 2px solid #7b777d;
+    font-size: 14px;
+    padding: 8px 15px 8px 14px;
+    background: transparent;
+}
+
+
+.save-button {
+    position: fixed;
+    top: 660px;
+    right: 40px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    color: white;
+    background: #7107eb;
+    font-weight: 900;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding: 13px 20px 13px 20px;
+}
+
+.save-button:hover {
+    background-color: #b50cf7;
+    cursor: pointer;
+}
+
+.save-button i {
+    margin-right: 7px;
+}
+
+
+.row2 .email input {
+    border-radius: 4px;
+    width: 290px;
+    border: none;
+    outline: none;
+    height: 50px;
+    font-size: 14px;
+    padding: 8px 15px 8px 14px;
+    background: transparent;
+    font-weight: bold;
+    color: #817f81;
+}
+
+.row2 {
+    margin-top: 30px;
+    display: flex;
+}
+
+.change-email-button {
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    color: white;
+    background: #4883f1;
+    font-weight: 900;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding: 10px;
+}
+
+.change-email-button:hover {
+    background-color: #5cb4e7;
+    cursor: pointer;
+}
+
+.change-email-button i {
+    margin-right: 5px;
+}
+
+.usertype {
+    margin-left: 20px;
+}
+
+.email p {
+    margin-bottom: 6px;
+}
+
+.usertype p {
+    margin-bottom: 6px;
+}
+
+#gender option {
+    padding: 10px;
+}
+
+.in-row1-college {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#course {
+    border-radius: 4px;
+    width: 390px;
+    border: none;
+    outline: none;
+    height: 50px;
+    border: 2px solid #7b777d;
+    font-size: 14px;
+    padding: 8px 15px 8px 14px;
+    background: transparent;
+}
+
+#course-spec {
+    border-radius: 4px;
+    width: 390px;
+    border: none;
+    outline: none;
+    height: 50px;
+    border: 2px solid #7b777d;
+    font-size: 14px;
+    padding: 8px 15px 8px 14px;
+    background: transparent;
+}
+
+#organisation {
+    border-radius: 4px;
+    width: 490px;
+    border: none;
+    outline: none;
+    height: 50px;
+    border: 2px solid #7b777d;
+    font-size: 14px;
+    padding: 8px 15px 8px 14px;
+    background: transparent;
+}
+
+#duration-start {
+    border-radius: 4px;
+    width: 390px;
+    border: none;
+    outline: none;
+    height: 50px;
+    border: 2px solid #7b777d;
+    font-size: 14px;
+    padding: 8px 15px 8px 14px;
+    background: transparent;
+    margin-right: 53px;
+}
+
+#duration-end {
+    border-radius: 4px;
+    width: 390px;
+    border: none;
+    outline: none;
+    height: 50px;
+    border: 2px solid #7b777d;
+    font-size: 14px;
+    padding: 8px 15px 8px 14px;
+    background: transparent;
+}
+
+#s-class {
+    border-radius: 4px;
+    width: 390px;
+    border: none;
+    outline: none;
+    height: 50px;
+    border: 2px solid #7b777d;
+    font-size: 14px;
+    padding: 8px 15px 8px 14px;
+    background: transparent;
+}
+
+#work-exp {
+    border-radius: 4px;
+    width: 390px;
+    border: none;
+    outline: none;
+    height: 50px;
+    border: 2px solid #7b777d;
+    font-size: 14px;
+    padding: 8px 15px 8px 14px;
+    background: transparent;
+}
+
+#curr-sector {
+    border-radius: 4px;
+    width: 390px;
+    border: none;
+    outline: none;
+    height: 50px;
+    border: 2px solid #7b777d;
+    font-size: 14px;
+    padding: 8px 15px 8px 14px;
+    background: transparent;
+}
+
+#designation {
+    border-radius: 4px;
+    width: 390px;
+    border: none;
+    outline: none;
+    height: 50px;
+    border: 2px solid #7b777d;
+    font-size: 14px;
+    padding: 8px 15px 8px 14px;
+    background: transparent;
+}
+
+.in-pro-row1 {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#interest {
+    border-radius: 4px;
+    width: 390px;
+    border: none;
+    outline: none;
+    height: 50px;
+    border: 2px solid #7b777d;
+    font-size: 14px;
+    padding: 8px 15px 8px 14px;
+    background: transparent;
+}
+
+.in-row1-fresher {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.in-school-row1 {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-around;
+}
+
+#type-org {
+    border-radius: 4px;
+    width: 390px;
+    border: none;
+    outline: none;
+    height: 50px;
+    border: 2px solid #7b777d;
+    font-size: 14px;
+    padding: 8px 15px 8px 14px;
+    background: transparent;
+}
+
+.in-organizer-row1 {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.weblinks-box {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+#web-links-type {
+    border-radius: 4px;
+    width: 120px;
+    border: none;
+    outline: none;
+    height: 50px;
+    border: 2px solid #7b777d;
+    font-size: 14px;
+    padding: 10px;
+    background: transparent;
+}
+
+.weblinks input {
+    border-radius: 4px;
+    width: 790px;
+    border: none;
+    outline: none;
+    height: 50px;
+    border: 2px solid #7b777d;
+    font-size: 14px;
+    padding: 8px 15px 8px 14px;
+    background: transparent;
+}
+
+.row4 {
+    margin-top: 30px;
+}
+
+.remove-btn {
+    margin-left: 10px;
+    color: red;
+    cursor: pointer;
+}
+
+.add-link-bnt{
+    border: none;
+    font-size: 15px;
+}
+
+.add-link-bnt i{
+    margin-right: 5px;
+}
+
+.add-link-bnt:hover{
+    color: #4883f1;
+    text-decoration: underline;
+}
+
+
+.input-container {
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+.input-container label {
+    display: block;
+    margin-bottom: 8px;
+}
+.input-container input[type="text"], .input-container input[type="email"], .input-container input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+.dropdown-container {
+    position: relative;
+    width: 100%;
+}
+.dropdown-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+.dropdown-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 1;
+    display: none;
+}
+.dropdown-list.show {
+    display: block;
+}
+.dropdown-item {
+    padding: 10px;
+    cursor: pointer;
+}
+.dropdown-item:hover {
+    background-color: #f1f1f1;
+}
+.bubble {
+    display: inline-block;
+    background-color: #ebdbf4;
+    color: rgb(101, 70, 212);
+    border-radius: 12px;
+    padding: 7px 14px;
+    margin: 5px;
+    font-size: 14px;
+    position: relative;
+}
+.bubble button {
+    background: none;
+    border: none;
+    color: rgb(67, 34, 185);
+    cursor: pointer;
+    margin-left: 10px;
+}
+.bubble-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.input-profile-container {
+    position: relative;
+}
+.dropdown-input {
+    border-radius: 4px;
+    width: 390px;
+    border: none;
+    outline: none;
+    height: 50px;
+    border: 2px solid #7b777d;
+    font-size: 14px;
+    padding: 8px 15px 8px 14px;
+    background: transparent;
+    box-sizing: border-box;
+}
+
+.dropdown-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 1;
+    display: none;
+}
+.dropdown-list.show {
+    display: block;
+}
+.dropdown-list-item {
+    padding: 10px;
+    cursor: pointer;
+}
+.dropdown-list-item:hover {
+    background-color: #f1f1f1;
+}

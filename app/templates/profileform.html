@@ -1,0 +1,248 @@
+<div class="profile_form">
+    <form action="{{url_for('main.edit')}}" method="post" enctype="multipart/form-data">
+        <div class="row1">
+            <div class="addimage">
+                <p>Profile Picture</p>
+                <label class="custum-file-upload" for="image">
+                    <div class="icon" id="svgIcon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="" viewBox="0 0 24 24">
+                            <g stroke-width="0" id="SVGRepo_bgCarrier"></g>
+                            <g stroke-linejoin="round" stroke-linecap="round" id="SVGRepo_tracerCarrier"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path fill=""
+                                    d="M10 1C9.73478 1 9.48043 1.10536 9.29289 1.29289L3.29289 7.29289C3.10536 7.48043 3 7.73478 3 8V20C3 21.6569 4.34315 23 6 23H7C7.55228 23 8 22.5523 8 22C8 21.4477 7.55228 21 7 21H6C5.44772 21 5 20.5523 5 20V9H10C10.5523 9 11 8.55228 11 8V3H18C18.5523 3 19 3.44772 19 4V9C19 9.55228 19.4477 10 20 10C20.5523 10 21 9.55228 21 9V4C21 2.34315 19.6569 1 18 1H10ZM9 7H6.41421L9 4.41421V7ZM14 15.5C14 14.1193 15.1193 13 16.5 13C17.8807 13 19 14.1193 19 15.5V16V17H20C21.1046 17 22 17.8954 22 19C22 20.1046 21.1046 21 20 21H13C11.8954 21 11 20.1046 11 19C11 17.8954 11.8954 17 13 17H14V16V15.5ZM16.5 11C14.142 11 12.2076 12.8136 12.0156 15.122C10.2825 15.5606 9 17.1305 9 19C9 21.2091 10.7909 23 13 23H20C22.2091 23 24 21.2091 24 19C24 17.1305 22.7175 15.5606 20.9844 15.122C20.7924 12.8136 18.858 11 16.5 11Z"
+                                    clip-rule="evenodd" fill-rule="evenodd"></path>
+                            </g>
+                        </svg>
+                    </div>
+                    <img id="imagePreviewImg" class="preview" src="#" alt="Image Preview">
+                    <div class="text" id="uploadText">
+                        <span>Click to upload image</span>
+                    </div>
+                    <input type="file" id="image" name="image" accept="image/*" onchange="showImagePreview(event)">
+                </label>
+            </div>
+            <div class="basicform">
+                <div class="basic-first">
+                    <div class="name">
+                        <p>Name</p>
+                        <input type="text" id="new_name" name="new_name" value="{{current_user.name}}">
+                    </div>
+                    <div class="mname">
+                        <p>Username</p>
+                        <input type="text" id="username" name="username" placeholder="pranluis2301">
+                    </div>
+                    <div class="lname">
+                        <p>Location</p>
+                        <input type="text" id="location" name="location">
+                    </div>
+                </div>
+                <div class="basic-second">
+                    <div class="dob">
+                        <p>Date of Birth</p>
+                        <input type="date" id="dob" name="dob">
+                    </div>
+                    <div>
+                        <label for="gender">Gender</label><br>
+                        <select id="gender" name="gender">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Others">Others</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="martial">Martial Status</label><br>
+                        <select id="martial" name="martial">
+                            <option value="Single">Single</option>
+                            <option value="Married">Married</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row2">
+            <div class="email">
+                <p>Email</p>
+                <input type="text" id="email" name="email" value="{{current_user.email}}" readonly>
+                <button class="change-email-button" type="button"><i class="fa-solid fa-pen"></i>Update
+                    email</button>
+            </div>
+            <div class="usertype">
+                <p>User Type</p>
+                <div class="radio-group">
+                    <input type="radio" id="option1" name="user-type" class="radio-input" value="option1">
+                    <label for="option1" class="radio-label"><i class="fa-solid fa-graduation-cap"></i>College Student</label>
+
+                    <input type="radio" id="option2" name="user-type" class="radio-input" value="option2">
+                    <label for="option2" class="radio-label"><i class="fa-solid fa-school"></i>School Student</label>
+
+                    <input type="radio" id="option3" name="user-type" class="radio-input" value="option3">
+                    <label for="option3" class="radio-label"><i class="fa-solid fa-user-tie"></i>Professional</label>
+
+                    <input type="radio" id="option4" name="user-type" class="radio-input" value="option4">
+                    <label for="option4" class="radio-label"><i class="fa-solid fa-clipboard"></i>Fresher</label>
+
+                    <input type="radio" id="option5" name="user-type" class="radio-input" value="option5">
+                    <label for="option5" class="radio-label"><i class="fa-solid fa-building"></i>Organizer</label>
+                </div>
+            </div>
+        </div>
+        <div class="row3">
+            <div id="college-student-fields" class="row3-group">
+                <div class="in-row1-college">
+                    <div>
+                        <label for="course_input">Course</label><br>
+                        <div class="input-profile-container">
+                            <input type="text" id="course_input" class="dropdown-input"
+                                placeholder="Type or select a course..." name="course">
+                            <div id="course_list" class="dropdown-list"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="specialization_input">Course Specialization</label><br>
+                        <div class="input-profile-container">
+                            <input type="text" id="specialization_input" class="dropdown-input"
+                                placeholder="Type or select a specialization..." name="specialization">
+                            <div id="specialization_list" class="dropdown-list"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <p>Organisation/College</p>
+                        <input type="text" id="organisation" name="organisation">
+                    </div>
+                </div>
+                <div class="in-row2-college">
+                    <div>
+                        <p>Duration</p>
+                        <input type="text" id="duration-start" name="duration-start">
+                        <input type="text" id="duration-end" name="duration-end">
+                    </div>
+                </div>
+            </div>
+            <div id="school-student-fields" class="row3-group">
+                <div class="in-school-row1">
+                    <div>
+                        <label for="school_class_input">School Class</label><br>
+                        <div class="input-profile-container">
+                            <input type="text" id="school_class_input" class="dropdown-input"
+                                placeholder="Type or select a class..." name="school_class">
+                            <div id="school_class_list" class="dropdown-list"></div>
+                        </div>
+
+                    </div>
+                    <div>
+                        <p>Organisation/School</p>
+                        <input type="text" id="organisation" name="sch-organisation">
+                    </div>
+                </div>
+
+            </div>
+            <div id="professional-feilds" class="row3-group">
+                <div class="in-pro-row1">
+                    <div>
+                        <label for="work_experience_input">Work Experience</label><br>
+                        <div class="input-profile-container">
+                            <input type="text" id="work_experience_input" class="dropdown-input"
+                                placeholder="Type or select work experience..." name="work_experience">
+                            <div id="work_experience_list" class="dropdown-list"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="current_sector_input">Current Sector</label><br>
+                        <div class="input-profile-container">
+                            <input type="text" id="current_sector_input" class="dropdown-input"
+                                placeholder="Type or select a sector..." name="current_sector">
+                            <div id="current_sector_list" class="dropdown-list"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <p>Organisation/College</p>
+                        <input type="text" id="organisation" name="pro-organisation">
+                    </div>
+                </div>
+                <div>
+                    <label for="designation_input">Designation</label><br>
+                    <div class="input-profile-container">
+                        <input type="text" id="designation_input" class="dropdown-input"
+                            placeholder="Type or select a designation..." name="designation">
+                        <div id="designation_list" class="dropdown-list"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="fresher-fields" class="row3-group">
+
+                <div class="in-row1-fresher">
+                    <div>
+                        <label for="current_sector_input">Interested Sector</label><br>
+                        <div class="input-profile-container">
+                            <input type="text" id="current_sector_input" class="dropdown-input"
+                                placeholder="Type or select a sector..." name="fre-current_sector">
+                            <div id="current_sector_list" class="dropdown-list"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="specialization_input">Course Specialization</label><br>
+                        <div class="input-profile-container">
+                            <input type="text" id="specialization_input" class="dropdown-input"
+                                placeholder="Type or select a specialization..." name="fre-specialization">
+                            <div id="specialization_list" class="dropdown-list"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <p>Organisation/College</p>
+                        <input type="text" id="organisation" name="fre-organisation">
+                    </div>
+                </div>
+                <div class="in-row2-college">
+                    <div>
+                        <p>Duration</p>
+                        <input type="text" id="duration-start" name="fre-duration-start">
+                        <input type="text" id="duration-end" name="fre-duration-end">
+                    </div>
+                </div>
+            </div>
+            <div id="organizer-fields" class="row3-group">
+                <div class="in-organizer-row1">
+                    <div>
+                        <label for="current_sector_input">Current Sector</label><br>
+                        <div class="input-profile-container">
+                            <input type="text" id="current_sector_input" class="dropdown-input"
+                                placeholder="Type or select a sector..." name="op-current_sector">
+                            <div id="current_sector_list" class="dropdown-list"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="organization_type_input">Type of Organization</label><br>
+                        <div class="input-profile-container">
+                            <input type="text" id="organization_type_input" class="dropdown-input"
+                                placeholder="Type or select an organization type..." name="organization_type">
+                            <div id="organization_type_list" class="dropdown-list"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <p>Organisation/College</p>
+                        <input type="text" id="organisation" name="op-organisation">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row4">
+            <p>Web Links</p>
+            <div class="weblinks" id="weblinks">
+                <div class="weblinks-box">
+                    <select id="web-links-type" name="web-links-type[]">
+                        <option value="none">Select</option>
+                        <option value="Personal">Personal</option>
+                        <option value="Twitter">Twitter</option>
+                        <option value="Facebook">Facebook</option>
+                        <option value="Github">Github</option>
+                    </select>
+                    <input type="text" name="social_media_links[]">
+                </div>
+            </div>
+            <button class="add-link-bnt" type="button" onclick="addInput('weblinks')"><i
+                    class="fa-solid fa-plus"></i>Add Link</button>
+        </div>
+        <button class="save-button" type="submit"><i class="fa-solid fa-floppy-disk"></i>Save</button>
+    </form>
+</div>
