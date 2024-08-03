@@ -2,7 +2,7 @@
     <form action="{{url_for('main.edit_about')}}" method="post" enctype="multipart/form-data">
         <div class="aboutme">
             <p>About Me</p>
-            <textarea name="about" id="bigTextField" rows="10" cols="50" placeholder="Introduce yourself here! Share a brief overview of who you are, your interest, and connect with fellow users."></textarea>
+            <textarea name="about" id="bigTextField" rows="10" cols="50" placeholder="Introduce yourself here! Share a brief overview of who you are, your interest, and connect with fellow users.">{{user.about}}</textarea>
         </div>
     
         <div class="input-container dropdown-container">
@@ -12,6 +12,12 @@
         </div>
         <div id="selected_domains" class="bubble-container">
             <!-- Selected domains will be displayed here -->
+            {% for domain in user.interested_domain %}
+            <div class="bubble">
+                {{ domain }} <button onclick="removeItem(this)"><i class="fa-solid fa-xmark"></i></button>
+                <input type="hidden" name="domains_offered[]" value="{{ domain }}">
+            </div>
+            {% endfor %}
         </div>
      
             <div class="input-container dropdown-container">
@@ -21,6 +27,12 @@
             </div>
             <div id="selected_skills" class="bubble-container">
                 <!-- Selected skills will be displayed here -->
+                {% for skill in user.skills %}
+                <div class="bubble">
+                    {{ skill }} <button onclick="removeItem(this)"><i class="fa-solid fa-xmark"></i></button>
+                    <input type="hidden" name="skills_offered[]" value="{{ skill }}">
+                </div>
+                {% endfor %}
             </div>
             <button class="save-button" type="submit"><i class="fa-solid fa-floppy-disk"></i>Save</button>
     </form>

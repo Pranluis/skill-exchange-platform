@@ -90,6 +90,7 @@
                 '<option value="Twitter">Twitter</option>' +
                 '<option value="Facebook">Facebook</option>' +
                 '<option value="Github">Github</option>' +
+                '<option value="Linkedin">Linkedin</option>'+
                 '</select>' +
                 '<input type="text" name="social_media_links[]">' +
                 '<span class="remove-btn" onclick="removeInput(this)">Remove</span>' +
@@ -98,7 +99,7 @@
         }
 
         function removeInput(element) {
-            element.parentElement.parentElement.remove();
+            element.parentNode.remove();
         }
         function showImagePreview(event) {
             const imageInput = event.target;
@@ -266,15 +267,15 @@
 
             radioButtons.forEach(function (radio) {
                 if (radio.checked) {
-                    if (radio.value === 'option1') {
+                    if (radio.value === 'College student') {
                         collegeStudentFields.style.display = 'block';
-                    } else if (radio.value === 'option2') {
+                    } else if (radio.value === 'School Student') {
                         schoolStudentFields.style.display = 'block';
-                    } else if (radio.value === 'option3') {
+                    } else if (radio.value === 'Professional') {
                         professtionFields.style.display = 'block';
-                    } else if (radio.value === 'option4') {
+                    } else if (radio.value === 'Fresher') {
                         freshersFields.style.display = 'block';
-                    } else if (radio.value === 'option5') {
+                    } else if (radio.value === 'Organizer') {
                         organizerFields.style.display = 'block';
                     }
                 }

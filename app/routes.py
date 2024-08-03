@@ -131,6 +131,22 @@ def dashboard():
             "name":current_user.name,
             "email":current_user.email,
             "provider":current_user.provider,
+            'username': '',
+            'location':'',
+            'date_of_birth':'',
+            'gender':'',
+            'martial_status':'',
+            'social_media_links':'',
+            'user_type':'',
+            'course':'',
+            'course_specialization':'',
+            'organization':'',
+            'duration_start':'',
+            'duration_end':'',
+            'about':'',
+            'skills':'',
+            'interested_domain':''
+
         }
         mongo.db.users.insert_one(new_user)
         return render_template('dashboard.html', data=current_user)
@@ -181,6 +197,7 @@ def edit_about():
         'interested_domain':domains
     }
     mongo.db.users.update_one({"_id": current_user.id}, {"$set": update_user})
+    user_data = mongo.db.users.find_one({'_id': current_user.id})
 
     return render_template('edit.html', data=current_user, user=user_data)
 
@@ -201,6 +218,12 @@ def edit():
         social_media = request.form.getlist('social_media_links[]')
         media_types = request.form.getlist('web-links-type[]')
         user_type = request.form.get('user-type')
+        sector = request.form.get('fre-current_sector')
+        course = request.form.get('course')
+        course_spec = request.form.get('specialization')
+        duration_start = request.form.get('duration-start')
+        duration_end = request.form.get('duration-end')
+        organisation = request.form.get('organisation')
 
         image_data = None
         if image and image.filename != '':
@@ -223,53 +246,15 @@ def edit():
             print(f'Error:{e}')
             flash(f'Error: {e}', 'danger')        
 
-        
-        if user_type == 'option1':
-            image = request.files.get('image')
-            new_name = request.form.get('new_name')
-            new_username = request.form.get('username')
-            location = request.form.get('location')
-            dob = request.form.get('dob')
-            gender = request.form.get('gender')
-            martial_status = request.form.get('martial')
-            social_media = request.form.getlist('social_media_links[]')
-            media_types = request.form.getlist('web-links-type[]')
-            course = request.form.get('course')
-            course_spec = request.form.get('specialization')
-            organisation = request.form.get('organisation')
-            duration_start = request.form.get('duration-start')
-            duration_end = request.form.get('duration-end')
+        social_media_links = []
+        for i in range(len(media_types)):
+            if media_types[i] != 'none' and social_media[i]:
+                social_media_links.append({
+                    'type': media_types[i],
+                    'url': social_media[i]
+                })
 
-            image_data = None
-            if image and image.filename != '':
-                image_data = image.read()
-                print(f"Image Data Length: {len(image_data)}")  # Debug statement to print the length of image data
-            else:
-                print("No image uploaded or image filename is empty") 
-
-            if image:
-                current_user.image = image_data
-                
-            current_user.name = new_name
-
-            try:
-                db.session.commit()
-                print('Updated')
-                flash('User updated successfully!', 'success')
-            except Exception as e:
-                db.session.rollback()
-                print(f'Error:{e}')
-                flash(f'Error: {e}', 'danger')
-
-            social_media_links = []
-            for i in range(len(media_types)):
-                if media_types[i] != 'none' and social_media[i]:
-                    social_media_links.append({
-                        'type': media_types[i],
-                        'url': social_media[i]
-                    })
-        
-            update_user = {
+        update_user = {
                 'name':new_name,
                 'username': new_username,
                 'location':location,
@@ -277,109 +262,16 @@ def edit():
                 'gender':gender,
                 'martial_status':martial_status,
                 'social_media_links':social_media_links,
+                'user_type':user_type,
                 'course':course,
                 'course_specialization':course_spec,
                 'organization':organisation,
                 'duration_start':duration_start,
-                'duration_end':duration_end
-            }
-            mongo.db.users.update_one({"_id": current_user.id}, {"$set": update_user})
-            # user_data = mongo.db.users.find_one({"_id": current_user.id})
-            
-        
-        elif user_type == 'option2':
-            image = request.files.get('image')
-            new_name = request.form.get('new_name')
-            new_username = request.form.get('username')
-            location = request.form.get('location')
-            dob = request.form.get('dob')
-            gender = request.form.get('gender')
-            martial_status = request.form.get('martial')
-            social_media = request.form.getlist('social_media_links[]')
-            media_types = request.form.getlist('web-links-type[]')
-            school_class = request.form.get('school_class')
-            organisation = request.form.get('sch-organisation')
+                'duration_end':duration_end,
 
-            image_data = None
-            if image and image.filename != '':
-                image_data = image.read()
-                print(f"Image Data Length: {len(image_data)}")  # Debug statement to print the length of image data
-            else:
-                print("No image uploaded or image filename is empty") 
-
-            if image:
-                current_user.image = image_data
-                
-            current_user.name = new_name
-
-            try:
-                db.session.commit()
-                print('Updated')
-                flash('User updated successfully!', 'success')
-            except Exception as e:
-                db.session.rollback()
-                print(f'Error:{e}')
-                flash(f'Error: {e}', 'danger')
-
-            social_media_links = []
-            for i in range(len(media_types)):
-                if media_types[i] != 'none' and social_media[i]:
-                    social_media_links.append({
-                        'type': media_types[i],
-                        'url': social_media[i]
-                    })
-        
-            data_list = [new_name, new_username, location, dob, gender, martial_status, user_type, social_media_links, school_class, organisation]
-            return data_list
-        
-        elif user_type == 'option4':
-            image = request.files.get('image')
-            new_name = request.form.get('new_name')
-            new_username = request.form.get('username')
-            location = request.form.get('location')
-            dob = request.form.get('dob')
-            gender = request.form.get('gender')
-            martial_status = request.form.get('martial')
-            social_media = request.form.getlist('social_media_links[]')
-            media_types = request.form.getlist('web-links-type[]')
-            sector = request.form.get('fre-current_sector')
-            course_spec = request.form.get('fre-specialization')
-            duration_start = request.form.get('fre-duration-start')
-            duration_end = request.form.get('fre-duration-end')
-            organisation = request.form.get('fre-organisation')
-
-            image_data = None
-            if image and image.filename != '':
-                image_data = image.read()
-                print(f"Image Data Length: {len(image_data)}")  # Debug statement to print the length of image data
-            else:
-                print("No image uploaded or image filename is empty") 
-
-            if image:
-                current_user.image = image_data
-                
-            current_user.name = new_name
-
-            try:
-                db.session.commit()
-                print('Updated')
-                flash('User updated successfully!', 'success')
-            except Exception as e:
-                db.session.rollback()
-                print(f'Error:{e}')
-                flash(f'Error: {e}', 'danger')
-
-            social_media_links = []
-            for i in range(len(media_types)):
-                if media_types[i] != 'none' and social_media[i]:
-                    social_media_links.append({
-                        'type': media_types[i],
-                        'url': social_media[i]
-                    })
-        
-            data_list = [new_name, new_username, location, dob, gender, martial_status, user_type, social_media_links, sector, organisation, course_spec, duration_end, duration_start]
-            return data_list
-
+        }
+        mongo.db.users.update_one({"_id": current_user.id}, {"$set": update_user})
+        user_data = mongo.db.users.find_one({'_id': current_user.id})
 
     return render_template('edit.html', data=current_user, user=user_data)
 

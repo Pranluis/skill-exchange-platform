@@ -30,31 +30,31 @@
                     </div>
                     <div class="mname">
                         <p>Username</p>
-                        <input type="text" id="username" name="username" placeholder="pranluis2301">
+                        <input type="text" id="username" name="username" placeholder="pranluis2301" value="{{user.username}}">
                     </div>
                     <div class="lname">
                         <p>Location</p>
-                        <input type="text" id="location" name="location">
+                        <input type="text" id="location" name="location" value="{{user.location}}">
                     </div>
                 </div>
                 <div class="basic-second">
                     <div class="dob">
                         <p>Date of Birth</p>
-                        <input type="date" id="dob" name="dob">
+                        <input type="date" id="dob" name="dob" value="{{user.date_of_birth}}">
                     </div>
                     <div>
                         <label for="gender">Gender</label><br>
                         <select id="gender" name="gender">
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Others">Others</option>
+                            <option value="Male" {% if user.gender == 'Male' %} selected {% endif %}>Male</option>
+                            <option value="Female" {% if user.gender == 'Female' %} selected {% endif %}>Female</option>
+                            <option value="Others" {% if user.gender == 'Others' %} selected {% endif %}>Others</option>
                         </select>
                     </div>
                     <div>
                         <label for="martial">Martial Status</label><br>
                         <select id="martial" name="martial">
-                            <option value="Single">Single</option>
-                            <option value="Married">Married</option>
+                            <option value="Single" {% if user.gender == 'Single' %} selected {% endif %}>Single</option>
+                            <option value="Married" {% if user.gender == 'Married' %} selected {% endif %}>Married</option>
                         </select>
                     </div>
                 </div>
@@ -70,19 +70,19 @@
             <div class="usertype">
                 <p>User Type</p>
                 <div class="radio-group">
-                    <input type="radio" id="option1" name="user-type" class="radio-input" value="option1">
+                    <input type="radio" id="option1" name="user-type" class="radio-input" value="College student" {% if user.user_type == 'College student' %} checked {% endif %}>
                     <label for="option1" class="radio-label"><i class="fa-solid fa-graduation-cap"></i>College Student</label>
 
-                    <input type="radio" id="option2" name="user-type" class="radio-input" value="option2">
+                    <input type="radio" id="option2" name="user-type" class="radio-input" value="School Student" {% if user.user_type == 'School Student' %} checked {% endif %}>
                     <label for="option2" class="radio-label"><i class="fa-solid fa-school"></i>School Student</label>
 
-                    <input type="radio" id="option3" name="user-type" class="radio-input" value="option3">
+                    <input type="radio" id="option3" name="user-type" class="radio-input" value="Professional" {% if user.user_type == 'Professional' %} checked {% endif %}>
                     <label for="option3" class="radio-label"><i class="fa-solid fa-user-tie"></i>Professional</label>
 
-                    <input type="radio" id="option4" name="user-type" class="radio-input" value="option4">
+                    <input type="radio" id="option4" name="user-type" class="radio-input" value="Fresher" {% if user.user_type == 'Fresher' %} checked {% endif %}>
                     <label for="option4" class="radio-label"><i class="fa-solid fa-clipboard"></i>Fresher</label>
 
-                    <input type="radio" id="option5" name="user-type" class="radio-input" value="option5">
+                    <input type="radio" id="option5" name="user-type" class="radio-input" value="Organizer" {% if user.user_type == 'Organizer' %} checked {% endif %}>
                     <label for="option5" class="radio-label"><i class="fa-solid fa-building"></i>Organizer</label>
                 </div>
             </div>
@@ -94,7 +94,7 @@
                         <label for="course_input">Course</label><br>
                         <div class="input-profile-container">
                             <input type="text" id="course_input" class="dropdown-input"
-                                placeholder="Type or select a course..." name="course">
+                                placeholder="Type or select a course..." name="course" value="{{user.course}}">
                             <div id="course_list" class="dropdown-list"></div>
                         </div>
                     </div>
@@ -102,20 +102,20 @@
                         <label for="specialization_input">Course Specialization</label><br>
                         <div class="input-profile-container">
                             <input type="text" id="specialization_input" class="dropdown-input"
-                                placeholder="Type or select a specialization..." name="specialization">
+                                placeholder="Type or select a specialization..." name="specialization" value="{{user.course_specialization}}">
                             <div id="specialization_list" class="dropdown-list"></div>
                         </div>
                     </div>
                     <div>
                         <p>Organisation/College</p>
-                        <input type="text" id="organisation" name="organisation">
+                        <input type="text" id="organisation" name="organisation" value="{{user.organization}}">
                     </div>
                 </div>
                 <div class="in-row2-college">
                     <div>
                         <p>Duration</p>
-                        <input type="text" id="duration-start" name="duration-start">
-                        <input type="text" id="duration-end" name="duration-end">
+                        <input type="text" id="duration-start" name="duration-start" value="{{user.duration_start}}">
+                        <input type="text" id="duration-end" name="duration-end" value="{{user.duration_end}}">
                     </div>
                 </div>
             </div>
@@ -229,19 +229,23 @@
         <div class="row4">
             <p>Web Links</p>
             <div class="weblinks" id="weblinks">
+                {% for link in user.social_media_links %}
                 <div class="weblinks-box">
                     <select id="web-links-type" name="web-links-type[]">
-                        <option value="none">Select</option>
-                        <option value="Personal">Personal</option>
-                        <option value="Twitter">Twitter</option>
-                        <option value="Facebook">Facebook</option>
-                        <option value="Github">Github</option>
+                        <option value="none" {% if link.type == 'none' %}selected{% endif %}>Select</option>
+                        <option value="Personal" {% if link.type == 'Personal' %}selected{% endif %}>Personal</option>
+                        <option value="Twitter" {% if link.type == 'Twitter' %}selected{% endif %}>Twitter</option>
+                        <option value="Facebook" {% if link.type == 'Facebook' %}selected{% endif %}>Facebook</option>
+                        <option value="Github" {% if link.type == 'Github' %}selected{% endif %}>Github</option>
+                        <option value="Linkedin" {% if link.type == 'Linkedin' %}selected{% endif %}>Linkedin</option>
                     </select>
-                    <input type="text" name="social_media_links[]">
+                    <input type="text" name="social_media_links[]" value="{{ link.url }}">
+                    <span class="remove-btn" onclick="removeInput(this)">Remove</span>
                 </div>
+                {% endfor %}
             </div>
-            <button class="add-link-bnt" type="button" onclick="addInput('weblinks')"><i
-                    class="fa-solid fa-plus"></i>Add Link</button>
+
+            <button class="add-link-bnt" type="button" onclick="addInput('weblinks')"><i class="fa-solid fa-plus"></i>Add Link</button>
         </div>
         <button class="save-button" type="submit"><i class="fa-solid fa-floppy-disk"></i>Save</button>
     </form>
