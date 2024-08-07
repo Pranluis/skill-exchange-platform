@@ -1,0 +1,59 @@
+<div class="cert-form">
+    <p>Certificates</p>
+    <button class="add-milestone-bnt" type="button" onclick="openModal()"><i class="fa-solid fa-plus"></i> Add a Certificate</button>
+
+    <!-- The Modal -->
+    <div id="certificateModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <form id="certificateForm" action="{{url_for('main.add_certificate')}}" method="POST" enctype="multipart/form-data">
+                <label for="certificate_title">Certificate Title</label>
+                <input type="text" id="certificate_title" name="certificate_title" required>
+
+                <label for="certificate_institution">Institution</label>
+                <input type="text" id="certificate_institution" name="certificate_institution" required>
+
+                <label for="certificate_issue_date">Issue Date</label>
+                <input type="date" id="certificate_issue_date" name="certificate_issue_date" required>
+
+                <label for="certificate_description">Description</label>
+                <textarea id="certificate_description" name="certificate_description" rows="4" required></textarea>
+
+                <label for="skills_learned">Skills Learned</label>
+                <div class="dropdown-container">
+                    <input type="text" id="skills_input_certificates" class="dropdown-input" placeholder="Type a skill...">
+                    <div id="skills_list_certificates" class="dropdown-list"></div>
+                </div>
+                <div id="selected_skills_certificates" class="bubble-container">
+                    <!-- Selected skills will be displayed here -->
+                </div>
+
+                <label for="certificate_file">Upload Certificate (PDF)</label>
+                <!-- <div class="custom-file-upload"> -->
+                    <input type="file" id="certificate_file" name="certificate_file" ac>
+                    <!-- <i class="fa fa-cloud-upload"></i> Choose File
+                </div> -->
+
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Certificate Showcase -->
+    {% for certificate in certificates %}
+    <div class="certificate-box">
+        <div class="certificate-title">{{ certificate.title }}</div>
+        <div class="certificate-details">Institution: {{ certificate.institution }}</div>
+        <div class="certificate-details">Issue Date: {{ certificate.issue_date }}</div>
+        <div class="certificate-details">Description: {{ certificate.description }}</div>
+        <div class="certificate-details">Skills Learned: {{ certificate.skills | join(', ') }}</div>
+        <div class="certificate-actions">
+            <button onclick="viewPDF('/certificate/{{ certificate.file_id }}')">View PDF</button>
+            <button onclick="downloadPDF('/certificate/{{ certificate.file_id }}')">Download PDF</button>
+            <button onclick="deleteCertificate('{{ certificate.file_id }}')">Delete</button>
+        </div>
+    </div>
+    {% endfor %}
+   
+        
+</div>

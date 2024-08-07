@@ -6,18 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script>
-         document.addEventListener('DOMContentLoaded', (event) => {
+        document.addEventListener('DOMContentLoaded', (event) => {
             const skills = ["Python", "JavaScript", "HTML", "CSS", "Java", "C++"];
             const domains = ["Web Development", "Data Science", "Cyber Security", "Machine Learning", "Marketing", "Sales"];
-            
+
             const skillsInput = document.getElementById('skills_input');
             const skillsList = document.getElementById('skills_list');
             const selectedSkillsContainer = document.getElementById('selected_skills');
-            
+
             const domainsInput = document.getElementById('domains_input');
             const domainsList = document.getElementById('domains_list');
             const selectedDomainsContainer = document.getElementById('selected_domains');
-            
+
             skillsInput.addEventListener('input', () => {
                 updateList(skillsInput, skillsList, skills, selectSkill);
             });
@@ -72,7 +72,7 @@
                 }
             }
 
-            window.removeItem = function(button) {
+            window.removeItem = function (button) {
                 const bubble = button.parentElement;
                 bubble.parentElement.removeChild(bubble);
             };
@@ -90,7 +90,7 @@
                 '<option value="Twitter">Twitter</option>' +
                 '<option value="Facebook">Facebook</option>' +
                 '<option value="Github">Github</option>' +
-                '<option value="Linkedin">Linkedin</option>'+
+                '<option value="Linkedin">Linkedin</option>' +
                 '</select>' +
                 '<input type="text" name="social_media_links[]">' +
                 '<span class="remove-btn" onclick="removeInput(this)">Remove</span>' +
@@ -239,7 +239,7 @@
         <div class="row0">
             <div class="heading">
                 <h1>
-                    <i class="fa-solid fa-pen-to-square"></i> Edit
+                    <i class="fa-solid fa-pen-to-square"></i> Edit Profile
                 </h1>
             </div>
             <div class="edit-profile-bar">
@@ -291,66 +291,233 @@
     });
 
     document.addEventListener('DOMContentLoaded', (event) => {
-            const fields = [
-                {id: 'course', list: ["Btech", "Mtech", "BBA"]},
-                {id: 'specialization', list: ["AI", "Data Science", "Web Development"]},
-                {id: 'school_class', list: ["10th", "12th", "Graduation"]},
-                {id: 'work_experience', list: ["0-1 years", "2-3 years", "4-5 years"]},
-                {id: 'current_sector', list: ["IT", "Healthcare", "Finance"]},
-                {id: 'designation', list: ["Intern", "Junior Developer", "Senior Developer"]},
-                {id: 'organization_type', list: ["Startup", "MNC", "Government"]}
-            ];
+        const fields = [
+            { id: 'course', list: ["Btech", "Mtech", "BBA"] },
+            { id: 'specialization', list: ["AI", "Data Science", "Web Development"] },
+            { id: 'school_class', list: ["10th", "12th", "Graduation"] },
+            { id: 'work_experience', list: ["0-1 years", "2-3 years", "4-5 years"] },
+            { id: 'current_sector', list: ["IT", "Healthcare", "Finance"] },
+            { id: 'designation', list: ["Intern", "Junior Developer", "Senior Developer"] },
+            { id: 'organization_type', list: ["Startup", "MNC", "Government"] }
+        ];
 
-            fields.forEach(field => {
-                const inputs = document.querySelectorAll(`#${field.id}_input`);
-                inputs.forEach(input => {
-                    const list = input.nextElementSibling;
+        fields.forEach(field => {
+            const inputs = document.querySelectorAll(`#${field.id}_input`);
+            inputs.forEach(input => {
+                const list = input.nextElementSibling;
 
-                    input.addEventListener('input', () => {
-                        updateDropdown(input, list, field.list, value => selectItem(input, list, value));
-                    });
+                input.addEventListener('input', () => {
+                    updateDropdown(input, list, field.list, value => selectItem(input, list, value));
+                });
 
-                    input.addEventListener('focus', () => {
-                        updateDropdown(input, list, field.list, value => selectItem(input, list, value));
-                    });
+                input.addEventListener('focus', () => {
+                    updateDropdown(input, list, field.list, value => selectItem(input, list, value));
+                });
 
-                    document.addEventListener('click', (event) => {
-                        if (!input.contains(event.target) && !list.contains(event.target)) {
-                            list.classList.remove('show');
-                        }
-                    });
+                document.addEventListener('click', (event) => {
+                    if (!input.contains(event.target) && !list.contains(event.target)) {
+                        list.classList.remove('show');
+                    }
                 });
             });
+        });
 
-            function updateDropdown(input, list, items, selectFunction) {
-                const query = input.value.toLowerCase();
-                list.innerHTML = '';
-                if (query) {
-                    const filteredItems = items.filter(item => item.toLowerCase().includes(query));
-                    filteredItems.forEach(item => {
-                        const listItem = document.createElement('div');
-                        listItem.textContent = item;
-                        listItem.className = 'dropdown-list-item';
-                        listItem.onclick = () => selectFunction(item);
-                        list.appendChild(listItem);
-                    });
-                } else {
-                    items.forEach(item => {
-                        const listItem = document.createElement('div');
-                        listItem.textContent = item;
-                        listItem.className = 'dropdown-list-item';
-                        listItem.onclick = () => selectFunction(item);
-                        list.appendChild(listItem);
-                    });
-                }
-                list.classList.add('show');
+        function updateDropdown(input, list, items, selectFunction) {
+            const query = input.value.toLowerCase();
+            list.innerHTML = '';
+            if (query) {
+                const filteredItems = items.filter(item => item.toLowerCase().includes(query));
+                filteredItems.forEach(item => {
+                    const listItem = document.createElement('div');
+                    listItem.textContent = item;
+                    listItem.className = 'dropdown-list-item';
+                    listItem.onclick = () => selectFunction(item);
+                    list.appendChild(listItem);
+                });
+            } else {
+                items.forEach(item => {
+                    const listItem = document.createElement('div');
+                    listItem.textContent = item;
+                    listItem.className = 'dropdown-list-item';
+                    listItem.onclick = () => selectFunction(item);
+                    list.appendChild(listItem);
+                });
             }
+            list.classList.add('show');
+        }
 
-            function selectItem(input, list, value) {
-                input.value = value;
+        function selectItem(input, list, value) {
+            input.value = value;
+            list.classList.remove('show');
+        }
+    });
+
+
+    var modal = document.getElementById("milestoneModal");
+
+    // Function to open the modal
+    function openModal() {
+        modal.style.display = "flex";
+    }
+
+    // Function to close the modal
+    function closeModal() {
+        modal.style.display = "none";
+    }
+
+    // Close the modal when the user clicks anywhere outside of the modal
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    // Sample positions for the dropdown
+    const positions = ["Software Engineer", "Data Scientist", "Product Manager", "Designer", "Marketing Manager"];
+
+    // Elements for the dropdown
+    const positionInput = document.getElementById('position');
+    const positionList = document.getElementById('positionList');
+
+    positionInput.addEventListener('input', function () {
+        const query = positionInput.value.toLowerCase();
+        positionList.innerHTML = '';
+        if (query) {
+            const filteredPositions = positions.filter(pos => pos.toLowerCase().includes(query));
+            filteredPositions.forEach(pos => {
+                const listItem = document.createElement('div');
+                listItem.textContent = pos;
+                listItem.className = 'dropdown-item';
+                listItem.onclick = () => selectPosition(pos);
+                positionList.appendChild(listItem);
+            });
+            positionList.style.display = 'block';
+        } else {
+            positionList.style.display = 'none';
+        }
+    });
+
+    function selectPosition(pos) {
+        positionInput.value = pos;
+        positionList.innerHTML = '';
+        positionList.style.display = 'none';
+    }
+
+
+    // Get the modal
+    var modal = document.getElementById("certificateModal");
+
+    // Function to open the modal
+    function openModal() {
+        modal.style.display = "flex";
+    }
+
+    // Function to close the modal
+    function closeModal() {
+        modal.style.display = "none";
+    }
+
+    // Close the modal when the user clicks anywhere outside of the modal
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const skills = ["Python", "JavaScript", "HTML", "CSS", "Java", "C++"];
+
+        const skillsInputCertificates = document.getElementById('skills_input_certificates');
+        const skillsListCertificates = document.getElementById('skills_list_certificates');
+        const selectedSkillsContainerCertificates = document.getElementById('selected_skills_certificates');
+
+        skillsInputCertificates.addEventListener('input', () => {
+            updateList(skillsInputCertificates, skillsListCertificates, skills, selectSkill);
+        });
+
+        function updateList(input, list, data, callback) {
+            const query = input.value.toLowerCase();
+            list.innerHTML = '';
+            if (query) {
+                const filteredData = data.filter(item => item.toLowerCase().includes(query));
+                filteredData.forEach(item => {
+                    const listItem = document.createElement('div');
+                    listItem.textContent = item;
+                    listItem.className = 'dropdown-item';
+                    listItem.onclick = () => callback(item);
+                    list.appendChild(listItem);
+                });
+                list.classList.add('show');
+            } else {
                 list.classList.remove('show');
             }
-        });
+        }
+
+        function selectSkill(skill) {
+            addBubble(skill, selectedSkillsContainerCertificates, 'skills_learned[]');
+            skillsInputCertificates.value = '';
+            skillsListCertificates.innerHTML = '';
+            skillsListCertificates.classList.remove('show');
+        }
+
+        function addBubble(item, container, inputName) {
+            if (!Array.from(container.children).some(bubble => bubble.textContent.includes(item))) {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'bubble';
+                itemDiv.innerHTML = `${item} <button onclick="removeItem(this)"><i class="fa-solid fa-xmark"></i></button>`;
+                const hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = inputName;
+                hiddenInput.value = item;
+                itemDiv.appendChild(hiddenInput);
+                container.appendChild(itemDiv);
+            }
+        }
+
+        window.removeItem = (btn) => {
+            btn.parentElement.remove();
+        };
+    });
+
+
+    function viewPDF(pdfUrl) {
+        window.open(pdfUrl, '_blank');
+    }
+
+    function downloadPDF(pdfUrl) {
+        const link = document.createElement('a');
+        link.href = pdfUrl;
+        link.download = pdfUrl.split('/').pop();
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    function deleteCertificate(fileId) {
+        if (confirm('Are you sure you want to delete this certificate?')) {
+            fetch(`/delete_certificate/${fileId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Add any additional headers if necessary
+                }
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Certificate deleted successfully.');
+                        location.reload(); // Reload the page to reflect changes
+                    } else {
+                        alert('Failed to delete the certificate.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while deleting the certificate.');
+                });
+        }
+    }
+
+
 </script>
 
 

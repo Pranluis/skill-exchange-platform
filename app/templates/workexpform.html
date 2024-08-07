@@ -1,0 +1,49 @@
+<div class="work-exp-form">
+    <div class="work-exp">
+        <p>Professional Milestone</p>
+        <button class="add-milestone-bnt" type="button" onclick="openModal()"><i class="fa-solid fa-plus"></i> Add a Milestone</button>
+        
+        <div id="milestoneModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <form action="{{url_for('main.add_work_experience')}}" method="POST">
+                    <div class="dropdown-container">
+                        <label for="position">Position</label>
+                        <input type="text" id="position" name="position" required>
+                        <div id="positionList" class="dropdown-list"></div>
+                    </div>
+    
+                    <label for="company">Company</label>
+                    <input type="text" id="company" name="company" required>
+    
+                    <label for="start_date">Start Date</label>
+                    <input type="date" id="start_date" name="start_date" required>
+    
+                    <label for="end_date">End Date</label>
+                    <input type="date" id="end_date" name="end_date">
+    
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" rows="4" required></textarea>
+    
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="show-list">
+            {% for exp in experiences %}
+            <div class="work-experience-container">
+                <div class="work-experience">
+                    <h3>{{exp.position}}</h3>
+                    <div class="company">at <b>{{exp.company}}</b></div>
+                    <div class="date-range">From {{exp.start_date}} to {{exp.end_date}}</div>
+                    <p>{{exp.description}}</p>
+                    <div class="actions">
+                        <a href="/work_del_experience/{{exp.work_id}}"><button class="delete">Delete</button></a>
+                    </div>
+                </div>
+             </div>
+             {% endfor %}
+            
+    </div>
+</div>

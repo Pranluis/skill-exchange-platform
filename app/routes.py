@@ -1,18 +1,26 @@
 import base64
 from datetime import datetime, timedelta
-from flask import app, render_template, redirect, url_for, flash, request, Blueprint, Flask, session
+from bson import ObjectId
+from bson.objectid import ObjectId
+from flask import abort, app, render_template, redirect, send_file, url_for, flash, request, Blueprint, Flask, session, jsonify
 from flask_login import login_user, logout_user, login_required, current_user
 import requests
 from . import db
 from .models import User
 from app import oauth
 from app import mongo
+import logging
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
+import gridfs
+from werkzeug.utils import secure_filename
+from app.main_func import generate_unique_id, get_work_exp, del_work_exp
 
 
 main = Blueprint('main', __name__)
+logging.basicConfig(level=logging.DEBUG)
 
+fs = gridfs.GridFS(mongo.db)
 
 google = oauth.register(
     name='google',
@@ -198,8 +206,126 @@ def edit_about():
     }
     mongo.db.users.update_one({"_id": current_user.id}, {"$set": update_user})
     user_data = mongo.db.users.find_one({'_id': current_user.id})
+    experiences = get_work_exp(current_user.id)
 
-    return render_template('edit.html', data=current_user, user=user_data)
+    return render_template('edit.html', data=current_user, user=user_data, experiences=experiences)
+
+
+
+@main.route('/work_experience', methods=['POST', 'GET'])
+@login_required
+def add_work_experience():
+    messages = session.pop('_flashes', [])
+    experiences = get_work_exp(current_user.id)
+    if request.method == 'POST':
+        work_id = generate_unique_id()
+        postion = request.form.get('position')
+        company = request.form.get('company')
+        start_date = request.form.get('start_date')
+        end_date = request.form.get('end_date')
+        des = request.form.get('description')
+
+        new_work_exp = {
+            'user_id':current_user.id,
+            'work_id':work_id,
+            'position':postion,
+            'company':company,
+            'start_date':start_date,
+            'end_date':end_date,
+            'description':des
+        }
+        mongo.db.work_experience.insert_one(new_work_exp)
+        user_data = mongo.db.users.find_one({'_id': current_user.id})
+
+    experiences = get_work_exp(current_user.id)
+    return redirect(url_for('main.edit'))
+
+
+@main.route('/work_del_experience/<int:work_id>', methods=['GET'])
+@login_required
+def delete_work_experience(work_id):
+    user_id = current_user.id
+    del_work_exp(work_id, user_id)
+
+    return redirect(url_for('main.edit'))
+
+
+@main.route('/delete_certificate/<file_id>', methods=['DELETE'])
+@login_required
+def delete_certificate(file_id):
+    try:
+        object_id = ObjectId(file_id)
+        
+        fs.delete(object_id)
+        logging.info(f"File with ID {file_id} deleted from GridFS")
+        
+        result = mongo.db.certificates.delete_one({'file_id': file_id})
+        if result.deleted_count == 0:
+            logging.warning(f"No document found with file_id {file_id}")
+            return jsonify({'message': 'Document not found'}), 404
+        
+        logging.info(f"Document with file_id {file_id} deleted from MongoDB")
+        return jsonify({'message': 'Certificate deleted successfully'}), 200
+    
+    except gridfs.errors.NoFile:
+        logging.error(f"File with ID {file_id} not found in GridFS")
+        return jsonify({'message': 'File not found'}), 404
+    except Exception as e:
+        logging.error(f"Error deleting certificate: {e}")
+        return jsonify({'message': 'Internal server error'}), 500
+
+
+@main.route('/add_certificate', methods=['POST'])
+@login_required
+def add_certificate():
+    user_certificates = list(mongo.db.certificates.find({'user_id': current_user.id}))
+    title = request.form['certificate_title']
+    institution = request.form['certificate_institution']
+    issue_date = request.form['certificate_issue_date']
+    description = request.form['certificate_description']
+    skills = request.form.getlist('skills_learned[]')
+    file = request.files['certificate_file']
+
+    if file and file.filename.endswith('.pdf'):
+        filename = secure_filename(file.filename)
+        file_id = fs.put(file, filename=filename) # type: ignore
+
+        certificate = {
+            'user_id': current_user.id,
+            'title': title,
+            'institution': institution,
+            'issue_date': issue_date,
+            'description': description,
+            'skills': skills,
+            'file_id': str(file_id)
+        }
+
+        mongo.db.certificates.insert_one(certificate)
+        user_certificates = list(mongo.db.certificates.find({'user_id': current_user.id}))
+        flash('Certificate uploaded successfully!', 'success')
+        return redirect(url_for('main.edit'))
+    else:
+        user_certificates = list(mongo.db.certificates.find({'user_id': current_user.id}))
+        flash('Invalid file type. Only PDFs are allowed.', 'danger')
+        return redirect(url_for('main.edit'))
+
+@main.route('/certificate/<file_id>')
+@login_required
+def get_certificate(file_id):
+    try:
+        object_id = ObjectId(file_id)
+        pdf_file = fs.get(object_id)  
+        
+        if not pdf_file:
+            abort(404)
+
+        return send_file(pdf_file, download_name=f"{file_id}.pdf", as_attachment=False)
+    except gridfs.errors.NoFile:
+        logging.error(f"File with ID {file_id} not found in GridFS")
+        abort(404)
+    except Exception as e:
+        logging.error(f"Error retrieving file: {e}")
+        abort(500)
 
 
 @main.route('/profile/edit', methods=['GET', 'POST'])
@@ -207,6 +333,8 @@ def edit_about():
 def edit():
     messages = session.pop('_flashes', [])
     user_data = mongo.db.users.find_one({"_id": current_user.id})
+    experiences = get_work_exp(current_user.id)
+    user_certificates = list(mongo.db.certificates.find({'user_id': current_user.id}))
     if request.method == 'POST':
         image = request.files.get('image')
         new_name = request.form.get('new_name')
@@ -272,8 +400,11 @@ def edit():
         }
         mongo.db.users.update_one({"_id": current_user.id}, {"$set": update_user})
         user_data = mongo.db.users.find_one({'_id': current_user.id})
+        experiences = get_work_exp(current_user.id)
+        user_certificates = list(mongo.db.certificates.find({'user_id': current_user.id}))
 
-    return render_template('edit.html', data=current_user, user=user_data)
+
+    return render_template('edit.html', data=current_user, user=user_data, experiences=experiences, certificates=user_certificates)
 
 
 @main.route('/logout')

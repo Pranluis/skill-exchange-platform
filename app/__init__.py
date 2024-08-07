@@ -5,6 +5,7 @@ import base64
 from authlib.integrations.flask_client import OAuth
 from dotenv import load_dotenv
 from flask_pymongo import PyMongo
+
 import os
 
 
