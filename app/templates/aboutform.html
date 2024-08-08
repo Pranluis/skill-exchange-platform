@@ -34,6 +34,52 @@
                 </div>
                 {% endfor %}
             </div>
+
+            <div class="contact-info">
+                <div class="phone-no-row">
+                    <div>
+                        <p>Phone Number</p>
+                        <input type="text" id="phone_num" name="phone_num" value="{{user.phone_num}}">
+                    </div>
+                    <div>
+                        <p>Alt - Phone Number</p>
+                        <input type="text" id="alt-phone_num" name="alt-phone-num" value="{{user.alternative_phone_num}}">
+                    </div>
+                </div>
+                <div class="address-line">
+                    <div>
+                        <p>Permanent Address</p>
+                        <input type="text" id="per-address" name="per-address" value="{{user.permanent_address}}" placeholder="Address line 1">
+                    </div>
+                    <div>
+                        <p>Address line 2</p>
+                        <input type="text" id="per-address-2" name="per-address-2" value="{{user.per_address_2}}" placeholder="Address line 2">
+                    </div>
+                </div>
+                <div class="stat-coun-line">
+                    <div class="coun-state">
+                        <div>
+                            <p>Country</p>
+                            <input type="text" id="country" name="country" value="{{user.country}}">
+                        </div>
+                        <div>
+                            <p>State</p>
+                            <input type="text" id="state" name="state" value="{{user.state}}">
+                        </div>
+                    </div>
+                    <div class="city-code">
+                        <div>
+                            <p>City</p>
+                            <input type="text" id="city" name="city" value="{{user.city}}">
+                        </div>
+                        <div>
+                            <p>Postal Code</p>
+                            <input type="text" id="pos-code" name="pos-code" value="{{user.postal_code}}">
+                        </div>
+                    </div>
+          
+                </div>
+            </div>
             <button class="save-button" type="submit"><i class="fa-solid fa-floppy-disk"></i>Save</button>
     </form>
     

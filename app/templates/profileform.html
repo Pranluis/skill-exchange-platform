@@ -125,14 +125,14 @@
                         <label for="school_class_input">School Class</label><br>
                         <div class="input-profile-container">
                             <input type="text" id="school_class_input" class="dropdown-input"
-                                placeholder="Type or select a class..." name="school_class">
+                                placeholder="Type or select a class..." name="school_class" value="{{user.school_class}}">
                             <div id="school_class_list" class="dropdown-list"></div>
                         </div>
 
                     </div>
                     <div>
                         <p>Organisation/School</p>
-                        <input type="text" id="organisation" name="sch-organisation">
+                        <input type="text" id="organisation" name="sch-organisation" value="{{user.school_organization}}">
                     </div>
                 </div>
 
@@ -143,7 +143,7 @@
                         <label for="work_experience_input">Work Experience</label><br>
                         <div class="input-profile-container">
                             <input type="text" id="work_experience_input" class="dropdown-input"
-                                placeholder="Type or select work experience..." name="work_experience">
+                                placeholder="Type or select work experience..." name="work_experience"  value="{{user.professional_work_exp}}">
                             <div id="work_experience_list" class="dropdown-list"></div>
                         </div>
                     </div>
@@ -151,20 +151,20 @@
                         <label for="current_sector_input">Current Sector</label><br>
                         <div class="input-profile-container">
                             <input type="text" id="current_sector_input" class="dropdown-input"
-                                placeholder="Type or select a sector..." name="current_sector">
+                                placeholder="Type or select a sector..." name="current_sector" value="{{user.professional_sector}}">
                             <div id="current_sector_list" class="dropdown-list"></div>
                         </div>
                     </div>
                     <div>
-                        <p>Organisation/College</p>
-                        <input type="text" id="organisation" name="pro-organisation">
+                        <p>Organisation</p>
+                        <input type="text" id="organisation" name="pro-organisation" value="{{user.professional_organization}}">
                     </div>
                 </div>
                 <div>
                     <label for="designation_input">Designation</label><br>
                     <div class="input-profile-container">
                         <input type="text" id="designation_input" class="dropdown-input"
-                            placeholder="Type or select a designation..." name="designation">
+                            placeholder="Type or select a designation..." name="designation" value="{{user.professional_designation}}">
                         <div id="designation_list" class="dropdown-list"></div>
                     </div>
                 </div>
@@ -176,7 +176,7 @@
                         <label for="current_sector_input">Interested Sector</label><br>
                         <div class="input-profile-container">
                             <input type="text" id="current_sector_input" class="dropdown-input"
-                                placeholder="Type or select a sector..." name="fre-current_sector">
+                                placeholder="Type or select a sector..." name="fre-current_sector" value="{{user.fresher_intrested_sector}}">
                             <div id="current_sector_list" class="dropdown-list"></div>
                         </div>
                     </div>
@@ -184,20 +184,20 @@
                         <label for="specialization_input">Course Specialization</label><br>
                         <div class="input-profile-container">
                             <input type="text" id="specialization_input" class="dropdown-input"
-                                placeholder="Type or select a specialization..." name="fre-specialization">
+                                placeholder="Type or select a specialization..." name="fre-specialization" value="{{user.fresher_course_specialization}}">
                             <div id="specialization_list" class="dropdown-list"></div>
                         </div>
                     </div>
                     <div>
                         <p>Organisation/College</p>
-                        <input type="text" id="organisation" name="fre-organisation">
+                        <input type="text" id="organisation" name="fre-organisation" value="{{user.fresher_organization}}">
                     </div>
                 </div>
                 <div class="in-row2-college">
                     <div>
                         <p>Duration</p>
-                        <input type="text" id="duration-start" name="fre-duration-start">
-                        <input type="text" id="duration-end" name="fre-duration-end">
+                        <input type="text" id="duration-start" name="fre-duration-start" value="{{user.fre_duration_start}}">
+                        <input type="text" id="duration-end" name="fre-duration-end" value="{{user.fre_duration_end}}">
                     </div>
                 </div>
             </div>
@@ -207,7 +207,7 @@
                         <label for="current_sector_input">Current Sector</label><br>
                         <div class="input-profile-container">
                             <input type="text" id="current_sector_input" class="dropdown-input"
-                                placeholder="Type or select a sector..." name="op-current_sector">
+                                placeholder="Type or select a sector..." name="op-current_sector" value="{{user.organization_sector}}">
                             <div id="current_sector_list" class="dropdown-list"></div>
                         </div>
                     </div>
@@ -215,13 +215,13 @@
                         <label for="organization_type_input">Type of Organization</label><br>
                         <div class="input-profile-container">
                             <input type="text" id="organization_type_input" class="dropdown-input"
-                                placeholder="Type or select an organization type..." name="organization_type">
+                                placeholder="Type or select an organization type..." name="organization_type" value="{{user.type_of_organization}}">
                             <div id="organization_type_list" class="dropdown-list"></div>
                         </div>
                     </div>
                     <div>
                         <p>Organisation/College</p>
-                        <input type="text" id="organisation" name="op-organisation">
+                        <input type="text" id="organisation" name="op-organisation" value="{{user.organizer_organization}}">
                     </div>
                 </div>
             </div>

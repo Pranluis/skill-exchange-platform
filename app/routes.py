@@ -151,10 +151,31 @@ def dashboard():
             'organization':'',
             'duration_start':'',
             'duration_end':'',
+            'school_class':'',
+            'school_organization':'',
+            'professional_work_exp':'',
+            'professional_sector':'',
+            'professional_organization':'',
+            'professional_designation':'',
+            'fresher_intrested_sector':'',
+            'fresher_course_specialization':'',
+            'fresher_organization':'',
+            'fre_duration_start':'',
+            'fre_duration_end':'',
+            'organization_sector':'',
+            'type_of_organization':'',
+            'organizer_organization':'',
             'about':'',
             'skills':'',
-            'interested_domain':''
-
+            'interested_domain':'',
+            'phone_num':'',
+            'alternative_phone_num':'',
+            'permanent_address':'',
+            'per_address_2':'',
+            'country':'',
+            'state':'',
+            'city':'',
+            'postal_code':'',
         }
         mongo.db.users.insert_one(new_user)
         return render_template('dashboard.html', data=current_user)
@@ -198,11 +219,28 @@ def edit_about():
     about = request.form.get('about')
     skills = request.form.getlist('skills_offered[]')
     domains = request.form.getlist('domains_offered[]')
+    phone_num = request.form.get('phone_num')
+    alt_phone_num = request.form.get('alt-phone-num')
+    per_address = request.form.get('per-address')
+    per_address_2 = request.form.get('per-address-2')
+    country = request.form.get('country')
+    state = request.form.get('state')
+    city = request.form.get('city')
+    pos_code = request.form.get('pos-code')
 
     update_user = {
         'about':about,
         'skills':skills,
-        'interested_domain':domains
+        'interested_domain':domains,
+        'phone_num':phone_num,
+        'alternative_phone_num':alt_phone_num,
+        'permanent_address':per_address,
+        'per_address_2':per_address_2,
+        'country':country,
+        'state':state,
+        'city':city,
+        'postal_code':pos_code,
+
     }
     mongo.db.users.update_one({"_id": current_user.id}, {"$set": update_user})
     user_data = mongo.db.users.find_one({'_id': current_user.id})
@@ -346,12 +384,26 @@ def edit():
         social_media = request.form.getlist('social_media_links[]')
         media_types = request.form.getlist('web-links-type[]')
         user_type = request.form.get('user-type')
-        sector = request.form.get('fre-current_sector')
+        fre_sector = request.form.get('fre-current_sector')
         course = request.form.get('course')
         course_spec = request.form.get('specialization')
         duration_start = request.form.get('duration-start')
         duration_end = request.form.get('duration-end')
         organisation = request.form.get('organisation')
+        school_class = request.form.get('school_class')
+        school_org = request.form.get('sch-organisation')
+        pro_work_exp = request.form.get('work_experience')
+        pro_current_sector = request.form.get('current_sector')
+        pro_org = request.form.get('pro-organisation')
+        pro_desg = request.form.get('designation')
+        fre_course_spc = request.form.get('fre-specialization')
+        fre_org = request.form.get('fre-organisation')
+        fre_duration_strt = request.form.get('fre-duration-start')
+        fre_duration_end = request.form.get('fre-duration-end')
+        org_sector = request.form.get('op-current_sector')
+        typ_of_org = request.form.get('organization_type')
+        op_organization = request.form.get('op-organisation')
+
 
         image_data = None
         if image and image.filename != '':
@@ -396,8 +448,23 @@ def edit():
                 'organization':organisation,
                 'duration_start':duration_start,
                 'duration_end':duration_end,
+                'school_class':school_class,
+                'school_organization':school_org,
+                'professional_work_exp':pro_work_exp,
+                'professional_sector':pro_current_sector,
+                'professional_organization':pro_org,
+                'professional_designation':pro_desg,
+                'fresher_intrested_sector':fre_sector,
+                'fresher_course_specialization':fre_course_spc,
+                'fresher_organization':fre_org,
+                'fre_duration_start':fre_duration_strt,
+                'fre_duration_end':fre_duration_end,
+                'organization_sector':org_sector,
+                'type_of_organization':typ_of_org,
+                'organizer_organization':op_organization,
 
         }
+
         mongo.db.users.update_one({"_id": current_user.id}, {"$set": update_user})
         user_data = mongo.db.users.find_one({'_id': current_user.id})
         experiences = get_work_exp(current_user.id)
@@ -405,6 +472,17 @@ def edit():
 
 
     return render_template('edit.html', data=current_user, user=user_data, experiences=experiences, certificates=user_certificates)
+
+
+@main.route('/profile')
+@login_required
+def profile():
+    user_data = mongo.db.users.find_one({'_id': current_user.id})
+    experiences = get_work_exp(current_user.id)
+    user_certificates = list(mongo.db.certificates.find({'user_id': current_user.id}))
+
+    return render_template('profile.html', user_data=user_data, work_exp=experiences, certificates=user_certificates)
+
 
 
 @main.route('/logout')

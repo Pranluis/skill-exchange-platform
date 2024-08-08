@@ -1,11 +1,11 @@
 <div class="work-exp-form">
     <div class="work-exp">
         <p>Professional Milestone</p>
-        <button class="add-milestone-bnt" type="button" onclick="openModal()"><i class="fa-solid fa-plus"></i> Add a Milestone</button>
+        <button class="add-milestone-bnt" type="button" onclick="openworkModal()"><i class="fa-solid fa-plus"></i> Add a Milestone</button>
         
         <div id="milestoneModal" class="modal">
             <div class="modal-content">
-                <span class="close" onclick="closeModal()">&times;</span>
+                <span class="close" onclick="closeworkModal()">&times;</span>
                 <form action="{{url_for('main.add_work_experience')}}" method="POST">
                     <div class="dropdown-container">
                         <label for="position">Position</label>
