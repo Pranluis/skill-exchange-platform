@@ -185,9 +185,9 @@ def dashboard():
 @login_required
 def news():
     api_key = os.getenv('NEWS_API_KEY')
-    url = 'https://newsapi.org/v2/top-headlines?country=us&category=technology'
+    url = f'https://newsapi.org/v2/top-headlines?country=us&category=technology'
     params = {  # You can change the country code as needed
-        'apiKey': os.getenv('NEWS_API_KEY')
+        'apiKey': api_key
     }
     response = requests.get(url, params=params)
     news_data = response.json()
@@ -196,13 +196,6 @@ def news():
 
     return render_template('news.html', articles=articles)
 
-
-@main.route('/profile')
-@login_required
-def profile():
-    messages = session.pop('_flashes', []) 
-
-    return render_template('profile.html', data=current_user)
 
 @main.route('/rand')
 @login_required
@@ -481,7 +474,7 @@ def profile():
     experiences = get_work_exp(current_user.id)
     user_certificates = list(mongo.db.certificates.find({'user_id': current_user.id}))
 
-    return render_template('profile.html', user_data=user_data, work_exp=experiences, certificates=user_certificates)
+    return render_template('profile.html', user=user_data, work_exp=experiences, certificates=user_certificates)
 
 
 

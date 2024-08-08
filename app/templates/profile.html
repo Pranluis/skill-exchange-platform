@@ -1,11 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
+    <link rel="stylesheet" href="/static/css/profilepage.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
+
 <body>
-    This is the profile 
+    {% extends "base.html" %}
+    {% block title %}Register{% endblock %}
+    {% block content %}
+    {% include 'maintemplate.html' %}
+    <div class="container">
+        <div class="main-content">
+            <!-- <h1><i class="fa-solid fa-user"></i> Profile</h1> -->
+            <div class="profile-header">
+                <img src="/static/images/background.png" alt="Background Image" class="background-img">
+                <div class="profile-picture">
+                    {% if current_user.image %}
+                    <img src="data:image/png;base64,{{ current_user.image | b64encode }}" alt="Profile Picture">
+                    {% else %}
+                    <img src="/static/images/blank.webp" alt="alt-blank picture">
+                    {% endif %}
+                </div>
+                <div class="basic-details">
+                    <div class="name-user-type">
+                        <div class="username-span">
+                            <h1 class="user-name">{{user.name}}</h1>
+                            <span>{{user.user_type}}</span>
+                        </div>
+                        <p class="user-email">@{{user.username}}</p>
+                    </div>
+                    <div class="user-type-info">
+                        {% if user.user_type == 'College student' %}
+                            <h1 class="org-name"><i class="fa-regular fa-building"></i> {{ user.organization }}</h1>
+                            <p class="interested-sector"> {{ user.course }}</p>
+                            <p class="job-info"><i class="fa-solid fa-briefcase"></i> Specialization: {{ user.course_specialization }} </p>
+                            <p class="education-info"><i class="fa-regular fa-calendar"></i> {{ user.duration_start }} - {{ user.duration_end }}</p>
+        
+                        {% elif user.user_type == 'Professional' %}
+                            <h1 class="org-name"><i class="fa-regular fa-building"></i> {{ user.professional_organization }}</h1>
+                            <p class="job-info"><i class="fa-solid fa-briefcase"></i> {{ user.professional_designation }} </p>
+                            <p class="sector-info"><i class="fa-solid fa-industry"></i> {{ user.professional_sector }}</p>
+        
+                        {% elif user.user_type == 'Fresher' %}
+                            <h1 class="org-name"><i class="fa-regular fa-building"></i> {{ user.fresher_organization }}</h1>
+                            <p class="interested-sector"><i class="fa-regular fa-heart"></i> Interested in: {{ user.fresher_intrested_sector }}</p>
+                            <p class="interested-sector"><i class="fa-solid fa-briefcase"></i> Specialization: {{ user.fresher_course_specialization }}</p>
+                            <p class="specialization-info"><i class="fa-regular fa-calendar"></i> {{ user.fre_duration_start }} - {{ user.fre_duration_end }}</p>
+        
+                        {% elif user.user_type == 'School Student' %}
+                            <h1 class="org-name"><i class="fa-solid fa-school"></i> {{ user.school_organization }}</h1>
+                            <p class="class-info"><i class="fa-regular fa-calendar"></i> Class: {{ user.school_class }}</p>
+        
+                        {% else %}
+                            <h1 class="org-name"><i class="fa-regular fa-building"></i> Company/Organization Name</h1>
+                            <p class="fallback-info">General user type. No specific information available.</p>
+                        {% endif %}
+                        
+                        </div>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="edit-box">
+            <div class="edit-button">
+                <a href="{{url_for('main.edit')}}"><button class="edit-set-button" type="button"><i
+                            class="fa-regular fa-pen-to-square"></i> Edit Profile</button></a>
+            </div>
+            <div class="change-pass-button">
+                <a href="#"><button class="change-set-button" type="button"><i class="fa-solid fa-gear"></i> Change
+                        Password</button></a>
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>
+{% endblock %}
