@@ -14,7 +14,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import os
 import gridfs
 from werkzeug.utils import secure_filename
-from app.main_func import generate_unique_id, get_work_exp, del_work_exp
+from app.main_func import generate_unique_id, get_work_exp, del_work_exp, get_logo_work_exp
 
 
 main = Blueprint('main', __name__)
@@ -476,6 +476,24 @@ def profile():
 
     return render_template('profile.html', user=user_data, work_exp=experiences, certificates=user_certificates)
 
+
+@main.route('/search-user')
+@login_required
+def search_user():
+    documents = list(mongo.db.users.find())
+
+    return render_template('searchuser.html', users = documents)
+       
+
+
+@main.route('/profile-other/<int:id>')
+@login_required
+def profile_other(id):
+    user_data = mongo.db.users.find_one({'_id': id})
+    experiences = get_work_exp(id)
+    user_certificates = list(mongo.db.certificates.find({'user_id': id}))
+
+    return render_template('profile.html', user=user_data, work_exp=experiences, certificates=user_certificates)
 
 
 @main.route('/logout')
