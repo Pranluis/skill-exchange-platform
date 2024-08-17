@@ -22,12 +22,15 @@
             <div class="profile-header">
                 <img src="/static/images/background.png" alt="Background Image" class="background-img">
                 <div class="profile-picture">
-                    {% if current_user.image %}
-                    <img src="data:image/png;base64,{{ current_user.image | b64encode }}" alt="Profile Picture">
+                    {% if user_image.image %}
+                    <img src="data:image/png;base64,{{ user_image.image | b64encode }}" alt="Profile Picture">
                     {% else %}
                     <img src="/static/images/blank.webp" alt="alt-blank picture">
                     {% endif %}
                 </div>
+                {% if user.isMentor == true %}
+                    <span class="is-mentor"><i class="fa-regular fa-circle-check"></i>mentor</span>
+                {% endif %}
                 <div class="basic-details">
                     <div class="name-user-type">
                         <div class="username-span">

@@ -14,7 +14,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import os
 import gridfs
 from werkzeug.utils import secure_filename
-from app.main_func import generate_unique_id, get_work_exp, del_work_exp, get_logo_work_exp
+from app.main_func import generate_unique_id, get_work_exp, del_work_exp, college_date_only, pro_data_only, fresher_data_only, school_data_only, organizer_data_only
 
 
 main = Blueprint('main', __name__)
@@ -130,8 +130,9 @@ def dashboard():
     user_data = mongo.db.users.find_one({"email": current_user.email})
     if user_data:
         flash('Welcome to your dashboard!', 'success')
+        user_data = mongo.db.users.find_one({'_id': current_user.id})
         messages = session.pop('_flashes', [])
-        return render_template('dashboard.html', data=current_user)
+        return render_template('dashboard.html', data=current_user, user=user_data)
     
     else:
         new_user = {
@@ -176,9 +177,15 @@ def dashboard():
             'state':'',
             'city':'',
             'postal_code':'',
+            'leader_rank':0,
+            'rating':0,
+            'coins':100,
+            'isMentor': False,
+
         }
         mongo.db.users.insert_one(new_user)
-        return render_template('dashboard.html', data=current_user)
+        user_data = mongo.db.users.find_one({'_id': current_user.id})
+        return render_template('dashboard.html', data=current_user, user=user_data)
 
 
 @main.route('/news')
@@ -396,7 +403,7 @@ def edit():
         org_sector = request.form.get('op-current_sector')
         typ_of_org = request.form.get('organization_type')
         op_organization = request.form.get('op-organisation')
-
+        
 
         image_data = None
         if image and image.filename != '':
@@ -459,6 +466,23 @@ def edit():
         }
 
         mongo.db.users.update_one({"_id": current_user.id}, {"$set": update_user})
+
+        if user_type == 'College student':
+            college_date_only(current_user.id)
+
+        if user_type == 'Professional':
+            pro_data_only(current_user.id)
+
+        if user_type == 'Fresher':
+            fresher_data_only(current_user.id)
+
+        if user_type == 'School Student':
+            school_data_only(current_user.id)
+
+        if user_type == 'Organizer':
+            organizer_data_only(current_user.id)
+
+
         user_data = mongo.db.users.find_one({'_id': current_user.id})
         experiences = get_work_exp(current_user.id)
         user_certificates = list(mongo.db.certificates.find({'user_id': current_user.id}))
@@ -477,12 +501,71 @@ def profile():
     return render_template('profile.html', user=user_data, work_exp=experiences, certificates=user_certificates)
 
 
-@main.route('/search-user')
+@main.route('/search-user', methods=['GET', 'POST'])
 @login_required
 def search_user():
-    documents = list(mongo.db.users.find())
+    top_user_list = []
+    users_list = []
+    top_users = list(mongo.db.users.find().sort('rating', -1).limit(6))
 
-    return render_template('searchuser.html', users = documents)
+    for user in top_users:
+        user_id = str(user['_id'])  # Convert ObjectId to string
+        user_for_image = User.query.filter_by(id=user_id).first()  # Get the user from SQLite
+
+       
+        top_user_list.append({
+                "name": user.get('name'),
+                "username": user.get('username'),
+                "details": user.get('about'),
+                "image": user_for_image.image,  # Add the profile image from SQLite
+                "_id": user_id,
+                "isMentor":user.get('isMentor'),    
+                "location":user.get('location'),
+                "skills":user.get('skills'),
+                "rating":user.get('rating'),
+                "coins":user.get('coins')
+        })
+
+
+    if request.method == 'POST':
+        user = request.form.get('search-user')
+        if user:
+            # Search for users by name or username
+            results = mongo.db.users.find({
+                "$or": [
+                    {"name": {"$regex": user, "$options": "i"}},
+                    {"username": {"$regex": user, "$options": "i"}}
+                ]
+            })
+
+
+        
+        users_list = []
+        for user in results:
+            user_id = str(user['_id'])  # Convert ObjectId to string
+            user_for_image = User.query.filter_by(id=user_id).first()  # Get the user from SQLite
+
+       
+            users_list.append({
+                "name": user.get('name'),
+                "username": user.get('username'),
+                "details": user.get('about'),
+                "image": user_for_image.image,  # Add the profile image from SQLite
+                "_id": user_id,
+                "isMentor":user.get('isMentor'),    
+                "location":user.get('location'),
+                "skills":user.get('skills'),
+                "rating":user.get('rating'),
+                "coins":user.get('coins')
+            })
+
+
+
+
+        return render_template('searchuser.html', users = users_list, top_users = top_user_list )
+        # return render_template('searchuser.html', users = results)
+    
+    return render_template('searchuser.html', users = users_list, top_users = top_user_list)
        
 
 
@@ -491,9 +574,10 @@ def search_user():
 def profile_other(id):
     user_data = mongo.db.users.find_one({'_id': id})
     experiences = get_work_exp(id)
+    user_image = User.query.filter_by(id=id).first()
     user_certificates = list(mongo.db.certificates.find({'user_id': id}))
 
-    return render_template('profile.html', user=user_data, work_exp=experiences, certificates=user_certificates)
+    return render_template('otherprofile.html', user=user_data, work_exp=experiences, certificates=user_certificates, user_image=user_image)
 
 
 @main.route('/logout')

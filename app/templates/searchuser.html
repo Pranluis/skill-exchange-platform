@@ -1,22 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="/static/css/searchuser.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <style>
-        .container{
+        .container {
             width: 100%;
             margin-left: 40px;
             margin: 20px auto;
-            padding: 20px 80px 20px 85px;
+            padding: 20px 20px 20px 85px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
             gap: 20px;
 
         }
-        .users-box{
+
+        .users-box {
             width: 100%;
             padding: 10px 10px 10px 20px;
             margin-top: 70px;
@@ -25,16 +29,144 @@
         }
     </style>
 </head>
+
 <body>
     {% include 'maintemplate.html' %}
     <div class="container">
-        {% for user in users %}
-            <div class="users-box">
-                <a href="/profile-other/{{user._id}}"><p><b>{{user.name}}</b></p></a>
-                <p>{{user.email}}</p>
-                <p>{{user.username}}</p>
+        <div class="search-area">
+            <h2>Search Users</h2>
+            <div class="search">
+                <form action="{{url_for('main.search_user')}}" method="post" enctype="multipart/form-data"
+                    id="searchForm">
+                    <input placeholder="Search Users..." type="text" name="search-user" id="searchButton">
+                    <button type="submit">Go</button>
+                </form>
             </div>
-        {% endfor %}
+
+        </div>
+        {% if users %}
+        <div class="searched-users-card">
+            <div class="cross-button">
+                <a href="{{url_for('main.search_user')}}"> <i class="fa-solid fa-circle-xmark"></i></a>
+     
+            </div>
+
+            {% if users %}
+            {% for user in users %}
+            <div class="user-card">
+                <div class="upper-part">
+                    <a href="/profile-other/{{user._id}}">
+                        {% if user.image %}
+                    <img src="data:image/png;base64,{{ user.image | b64encode }}" alt="Profile Picture"
+                        class="profile-pic-profile">
+                    {% else %}
+                    <img src="/static/images/blank.webp" alt="alt-blank picture" class="profile-pic-profile">
+                    {% endif %}
+                    </a>
+                </div>
+                <div class="user-info">
+                    <div class="first-row">
+                        <a href="/profile-other/{{user._id}}"><p><strong>{{ user.name }}</strong></p></a>
+                        <p class="username-inside">@{{user.username}}</p>
+                        {% if user.isMentor == true %}
+                            <span class="is-mentor"><i class="fa-regular fa-circle-check"></i></span>
+                        {% endif %}   
+                    </div>
+                    <div class="second-row">
+                        <div>
+                            <i class="fa-solid fa-star"></i>
+                            <span class="rating-span">{{user.rating}}</span>
+                            <i class="fa-solid fa-coins"></i>
+                            <span>{{user.coins}}</span>
+                        </div>
+                        <div class="address-show">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <p>{{user.location}}</p>
+                        </div>
+                    </div>
+                    <div class="text-container">
+                        <p class="text-content" id="text-content">
+                            {{user.details}}
+                        </p>
+                        <button id="show-more-btn" onclick="toggleText()">Show more</button>
+                    </div>
+                    <div class="diplay-skills">
+                        {% for skill in user.skills %}
+                            <span>{{skill}}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="buttons">
+                        <button class="contact-bnt" type="button" >Contact</button>
+                        <a href="/profile-other/{{user._id}}"><button class="open-profile-bnt" type="button" >Open Profile</button></a> 
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p>No users found.</p>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <h3>People with highest ratings</h3>
+        <div class="user-high-rating">
+            {% for top_user in top_users %}
+            <div class="rating-user-card">
+                <img src="/static/images/background.png" alt="Background Image" class="background-img">
+                <div class="rating-upper-part">
+                    <a href="/profile-other/{{top_user._id}}">
+                    {% if top_user.image %}
+                    <img src="data:image/png;base64,{{ top_user.image | b64encode }}" alt="Profile Picture"
+                        class="rating-profile-pic-profile">
+                    {% else %}
+                    <img src="/static/images/blank.webp" alt="alt-blank picture" class="rating-profile-pic-profile">
+                    {% endif %}
+                    </a>
+                </div>
+                <div class="rating-name">
+                    <a href="/profile-other/{{top_user._id}}" class="ratting-name"><p>{{top_user.name}}</p></a>
+                    {% if top_user.isMentor == true %}
+                            <span class="rating-is-mentor"><i class="fa-regular fa-circle-check"></i></span>
+                    {% endif %}
+                </div>
+                <div class="username-section">
+                    <p class="username-inside">@{{top_user.username}}</p>
+                </div>
+                <div class="stats-section">
+                    <i class="fa-solid fa-star"></i>
+                        <span class="rating-span">{{top_user.rating}}</span>
+                    <i class="fa-solid fa-coins"></i>
+                        <span>{{top_user.coins}}</span>
+                </div>
+                <div class="ration-location">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <p>{{top_user.location}}</p>
+                </div>
+                <div class="rating-diplay-skills">
+                    {% for skill in top_user.skills %}
+                        <span>{{skill}}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
     </div>
+    <script>
+        function toggleText() {
+            const content = document.getElementById('text-content');
+            const button = document.getElementById('show-more-btn');
+            const container = content.parentElement;
+
+            if (container.classList.contains('expanded')) {
+                container.classList.remove('expanded');
+                button.textContent = 'Show more';
+            } else {
+                container.classList.add('expanded');
+                button.textContent = 'Show less';
+            }
+        }
+    </script>
 </body>
+
 </html>

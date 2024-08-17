@@ -377,3 +377,19 @@
 .fa-user {
     color: #4CAF50; /* Custom color for Personal */
 }
+
+.is-mentor{
+    
+    margin-left: 55px;
+    font-weight: bold;
+    border: 1px solid rgb(211, 211, 211);
+    background-color: rgb(213, 212, 243);
+    font-size: 14px;
+    border-radius: 15px;
+    padding: 5px 5px 5px 5px;
+}
+
+.is-mentor i{
+    margin-right: 7px;
+    color: #1DA1F2;
+}

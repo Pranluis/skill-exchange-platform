@@ -28,6 +28,9 @@
                     <img src="/static/images/blank.webp" alt="alt-blank picture">
                     {% endif %}
                 </div>
+                {% if user.isMentor == true %}
+                    <span class="is-mentor"><i class="fa-regular fa-circle-check"></i>mentor</span>
+                {% endif %}
                 <div class="basic-details">
                     <div class="name-user-type">
                         <div class="username-span">

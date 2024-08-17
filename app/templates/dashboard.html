@@ -93,17 +93,17 @@
                 <div class="analytics">
                     <div class="graph">
                         <i class="fa-solid fa-chart-simple"></i>
-                        <span>0</span>
+                        <span>{{user.leader_rank}}</span>
                     </div>
                     <div class="vertical-line"></div>
                     <div class="ratings">
                         <i class="fa-solid fa-star"></i>
-                        <span>0</span>
+                        <span>{{user.rating}}</span>
                     </div>
                     <div class="vertical-line"></div>
                     <div class="points">
                         <i class="fa-solid fa-coins"></i>
-                        <span>0</span>
+                        <span>{{user.coins}}</span>
                     </div>
                 </div>
             </div>
@@ -118,7 +118,7 @@
                 <a href="#">
                     <div class="course">
                         <i class="fa-solid fa-book"></i>
-                        <span>Provide Skill</span>
+                        <span>Assignments</span>
                     </div>
                 </a>
                 <a href="#">
@@ -127,7 +127,7 @@
                         <span>Skill Exchange</span>
                     </div>
                 </a>
-                <a href="{{url_for('main.search_user')}}">
+                <a href="#">
                     <div class="course">
                         <i class="fa-solid fa-chalkboard-user"></i>
                         <span>Mentorship</span>
@@ -137,6 +137,12 @@
                     <div class="course">
                         <i class="fa-solid fa-newspaper"></i>
                         <span>Latest News</span>
+                    </div>
+                </a>
+                <a href="{{url_for('main.search_user')}}">
+                    <div class="course">
+                        <i class="fa-solid fa-users"></i>
+                        <span>Search Users</span>
                     </div>
                 </a>
             </div>
