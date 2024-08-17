@@ -1,5 +1,13 @@
 import uuid
 from app import mongo
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
+import os
+
+uri = os.getenv("MONGO_DB_KEY")
+
+client = MongoClient(uri, server_api=ServerApi('1'))
+mongo_db = client.get_database('skillexchangedatabase')
 
 def generate_unique_id():
     # Generate a UUID
@@ -13,12 +21,12 @@ def generate_unique_id():
 
 
 def get_work_exp(user_id):
-    experiences = list(mongo.db.work_experience.find({"user_id": user_id}))
+    experiences = list(mongo_db.work_experience.find({"user_id": user_id}))
     return experiences
     
 
 def del_work_exp(work_id_add, user_id_add):
-    mongo.db.work_experience.delete_one({"user_id": user_id_add, "work_id": work_id_add})
+    mongo_db.work_experience.delete_one({"user_id": user_id_add, "work_id": work_id_add})
     
 def college_date_only(user_id):
     new_update = {
@@ -37,7 +45,7 @@ def college_date_only(user_id):
                 'type_of_organization':'',
                 'organizer_organization':'',
     }
-    mongo.db.users.update_one({"_id": user_id}, {"$set": new_update})
+    mongo_db.users.update_one({"_id": user_id}, {"$set": new_update})
 
 
 def pro_data_only(user_id):
@@ -58,7 +66,7 @@ def pro_data_only(user_id):
                 'type_of_organization':'',
                 'organizer_organization':'',
     }
-    mongo.db.users.update_one({"_id": user_id}, {"$set": new_update})
+    mongo_db.users.update_one({"_id": user_id}, {"$set": new_update})
 
 
 def fresher_data_only(user_id):
@@ -78,7 +86,7 @@ def fresher_data_only(user_id):
                 'professional_organization':'',
                 'professional_designation':'',
     }
-    mongo.db.users.update_one({"_id": user_id}, {"$set": new_update})
+    mongo_db.users.update_one({"_id": user_id}, {"$set": new_update})
 
 def school_data_only(user_id):
     new_update = {
@@ -100,7 +108,7 @@ def school_data_only(user_id):
                 'fre_duration_start':'',
                 'fre_duration_end':'',
     }
-    mongo.db.users.update_one({"_id": user_id}, {"$set": new_update})
+    mongo_db.users.update_one({"_id": user_id}, {"$set": new_update})
 
 
 def organizer_data_only(user_id):
@@ -122,4 +130,4 @@ def organizer_data_only(user_id):
                 'school_class':'',
                 'school_organization':'',
     }
-    mongo.db.users.update_one({"_id": user_id}, {"$set": new_update})
+    mongo_db.users.update_one({"_id": user_id}, {"$set": new_update})

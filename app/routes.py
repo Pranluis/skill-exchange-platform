@@ -15,12 +15,18 @@ import os
 import gridfs
 from werkzeug.utils import secure_filename
 from app.main_func import generate_unique_id, get_work_exp, del_work_exp, college_date_only, pro_data_only, fresher_data_only, school_data_only, organizer_data_only
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
 
+uri = os.getenv("MONGO_DB_KEY")
+
+client = MongoClient(uri, server_api=ServerApi('1'))
+mongo_db = client.get_database('skillexchangedatabase')
 
 main = Blueprint('main', __name__)
 logging.basicConfig(level=logging.DEBUG)
 
-fs = gridfs.GridFS(mongo.db)
+fs = gridfs.GridFS(mongo_db)
 
 google = oauth.register(
     name='google',
@@ -127,10 +133,10 @@ def authorize():
 @main.route('/dashboard')
 @login_required
 def dashboard():
-    user_data = mongo.db.users.find_one({"email": current_user.email})
+    user_data = mongo_db.users.find_one({"email": current_user.email})
     if user_data:
         flash('Welcome to your dashboard!', 'success')
-        user_data = mongo.db.users.find_one({'_id': current_user.id})
+        user_data = mongo_db.users.find_one({'_id': current_user.id})
         messages = session.pop('_flashes', [])
         return render_template('dashboard.html', data=current_user, user=user_data)
     
@@ -183,8 +189,8 @@ def dashboard():
             'isMentor': False,
 
         }
-        mongo.db.users.insert_one(new_user)
-        user_data = mongo.db.users.find_one({'_id': current_user.id})
+        mongo_db.users.insert_one(new_user)
+        user_data = mongo_db.users.find_one({'_id': current_user.id})
         return render_template('dashboard.html', data=current_user, user=user_data)
 
 
@@ -215,7 +221,7 @@ def rand():
 @main.route('/profile/edit-about', methods=['POST'])
 @login_required
 def edit_about():
-    user_data = mongo.db.users.find_one({"_id": current_user.id})
+    user_data = mongo_db.users.find_one({"_id": current_user.id})
     about = request.form.get('about')
     skills = request.form.getlist('skills_offered[]')
     domains = request.form.getlist('domains_offered[]')
@@ -242,8 +248,8 @@ def edit_about():
         'postal_code':pos_code,
 
     }
-    mongo.db.users.update_one({"_id": current_user.id}, {"$set": update_user})
-    user_data = mongo.db.users.find_one({'_id': current_user.id})
+    mongo_db.users.update_one({"_id": current_user.id}, {"$set": update_user})
+    user_data = mongo_db.users.find_one({'_id': current_user.id})
     experiences = get_work_exp(current_user.id)
 
     return render_template('edit.html', data=current_user, user=user_data, experiences=experiences)
@@ -272,8 +278,8 @@ def add_work_experience():
             'end_date':end_date,
             'description':des
         }
-        mongo.db.work_experience.insert_one(new_work_exp)
-        user_data = mongo.db.users.find_one({'_id': current_user.id})
+        mongo_db.work_experience.insert_one(new_work_exp)
+        user_data = mongo_db.users.find_one({'_id': current_user.id})
 
     experiences = get_work_exp(current_user.id)
     return redirect(url_for('main.edit'))
@@ -297,7 +303,7 @@ def delete_certificate(file_id):
         fs.delete(object_id)
         logging.info(f"File with ID {file_id} deleted from GridFS")
         
-        result = mongo.db.certificates.delete_one({'file_id': file_id})
+        result = mongo_db.certificates.delete_one({'file_id': file_id})
         if result.deleted_count == 0:
             logging.warning(f"No document found with file_id {file_id}")
             return jsonify({'message': 'Document not found'}), 404
@@ -316,7 +322,7 @@ def delete_certificate(file_id):
 @main.route('/add_certificate', methods=['POST'])
 @login_required
 def add_certificate():
-    user_certificates = list(mongo.db.certificates.find({'user_id': current_user.id}))
+    user_certificates = list(mongo_db.certificates.find({'user_id': current_user.id}))
     title = request.form['certificate_title']
     institution = request.form['certificate_institution']
     issue_date = request.form['certificate_issue_date']
@@ -338,12 +344,12 @@ def add_certificate():
             'file_id': str(file_id)
         }
 
-        mongo.db.certificates.insert_one(certificate)
-        user_certificates = list(mongo.db.certificates.find({'user_id': current_user.id}))
+        mongo_db.certificates.insert_one(certificate)
+        user_certificates = list(mongo_db.certificates.find({'user_id': current_user.id}))
         flash('Certificate uploaded successfully!', 'success')
         return redirect(url_for('main.edit'))
     else:
-        user_certificates = list(mongo.db.certificates.find({'user_id': current_user.id}))
+        user_certificates = list(mongo_db.certificates.find({'user_id': current_user.id}))
         flash('Invalid file type. Only PDFs are allowed.', 'danger')
         return redirect(url_for('main.edit'))
 
@@ -370,9 +376,9 @@ def get_certificate(file_id):
 @login_required
 def edit():
     messages = session.pop('_flashes', [])
-    user_data = mongo.db.users.find_one({"_id": current_user.id})
+    user_data = mongo_db.users.find_one({"_id": current_user.id})
     experiences = get_work_exp(current_user.id)
-    user_certificates = list(mongo.db.certificates.find({'user_id': current_user.id}))
+    user_certificates = list(mongo_db.certificates.find({'user_id': current_user.id}))
     if request.method == 'POST':
         image = request.files.get('image')
         new_name = request.form.get('new_name')
@@ -465,7 +471,7 @@ def edit():
 
         }
 
-        mongo.db.users.update_one({"_id": current_user.id}, {"$set": update_user})
+        mongo_db.users.update_one({"_id": current_user.id}, {"$set": update_user})
 
         if user_type == 'College student':
             college_date_only(current_user.id)
@@ -483,9 +489,9 @@ def edit():
             organizer_data_only(current_user.id)
 
 
-        user_data = mongo.db.users.find_one({'_id': current_user.id})
+        user_data = mongo_db.users.find_one({'_id': current_user.id})
         experiences = get_work_exp(current_user.id)
-        user_certificates = list(mongo.db.certificates.find({'user_id': current_user.id}))
+        user_certificates = list(mongo_db.certificates.find({'user_id': current_user.id}))
 
 
     return render_template('edit.html', data=current_user, user=user_data, experiences=experiences, certificates=user_certificates)
@@ -494,9 +500,9 @@ def edit():
 @main.route('/profile')
 @login_required
 def profile():
-    user_data = mongo.db.users.find_one({'_id': current_user.id})
+    user_data = mongo_db.users.find_one({'_id': current_user.id})
     experiences = get_work_exp(current_user.id)
-    user_certificates = list(mongo.db.certificates.find({'user_id': current_user.id}))
+    user_certificates = list(mongo_db.certificates.find({'user_id': current_user.id}))
 
     return render_template('profile.html', user=user_data, work_exp=experiences, certificates=user_certificates)
 
@@ -506,7 +512,7 @@ def profile():
 def search_user():
     top_user_list = []
     users_list = []
-    top_users = list(mongo.db.users.find().sort('rating', -1).limit(6))
+    top_users = list(mongo_db.users.find().sort('rating', -1).limit(6))
 
     for user in top_users:
         user_id = str(user['_id'])  # Convert ObjectId to string
@@ -531,7 +537,7 @@ def search_user():
         user = request.form.get('search-user')
         if user:
             # Search for users by name or username
-            results = mongo.db.users.find({
+            results = mongo_db.users.find({
                 "$or": [
                     {"name": {"$regex": user, "$options": "i"}},
                     {"username": {"$regex": user, "$options": "i"}}
@@ -572,10 +578,10 @@ def search_user():
 @main.route('/profile-other/<int:id>')
 @login_required
 def profile_other(id):
-    user_data = mongo.db.users.find_one({'_id': id})
+    user_data = mongo_db.users.find_one({'_id': id})
     experiences = get_work_exp(id)
     user_image = User.query.filter_by(id=id).first()
-    user_certificates = list(mongo.db.certificates.find({'user_id': id}))
+    user_certificates = list(mongo_db.certificates.find({'user_id': id}))
 
     return render_template('otherprofile.html', user=user_data, work_exp=experiences, certificates=user_certificates, user_image=user_image)
 
