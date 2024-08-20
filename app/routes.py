@@ -55,8 +55,11 @@ def login():
         remember = True if request.form.get('remember') else False
         user = User.query.filter_by(email=email).first()
 
-        if not user.password:
-            flash('Login Unsuccessful. Please check email and password', 'danger')
+        if not user:
+            flash('User is not registered', 'danger')
+
+        elif not user.password:
+            flash('Login Unsuccessful. Please check email and password or login is done through another source', 'danger')
         
         else:
             if user and check_password_hash(user.password, password):

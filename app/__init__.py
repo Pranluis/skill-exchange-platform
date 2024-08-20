@@ -8,6 +8,7 @@ from flask_pymongo import PyMongo
 import os
 
 
+
 load_dotenv()
 
 db = SQLAlchemy()
@@ -19,11 +20,12 @@ def create_app():
     app = Flask(__name__)
     
     app.config['SECRET_KEY'] = os.getenv("APP_SECRET_KEY")
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../instance/app.sqlite'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://skillup_user:aYQsTNKjjDwSY86DBFuEVbQgeos9bPE5@dpg-cr1m48rqf0us73fphapg-a.singapore-postgres.render.com/skillup'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['UPLOAD_FOLDER'] = 'uploads/'
     app.config['SESSION_COOKIE_NAME'] = 'google-login-session'
     app.config["MONGO_URI"] = "mongodb://localhost:27017/skilldatabase"
+
 
 
     mongo.init_app(app)
