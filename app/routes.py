@@ -544,11 +544,11 @@ def search_user():
 
     current_user_data = mongo_db.users.find_one({'_id': current_user.id})
     current_user_skills = current_user_data.get('skills', [])
-    current_user_location = current_user_data.get('location', '')
+    # current_user_location = current_user_data.get('location', '')
 
-    if current_user_location:
+    if current_user_skills:
         similar_users = mongo_db.users.find({
-            'location': current_user_location,
+            # 'location': current_user_location,
             'skills': {'$in': current_user_skills}
         })
 
