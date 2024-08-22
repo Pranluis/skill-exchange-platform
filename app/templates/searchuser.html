@@ -150,6 +150,51 @@
             </div>
             {% endfor %}
         </div>
+
+        <h3>People you may know from {{curr_user.location}}</h3>
+        <div class="user-high-rating">
+            {% for near_user in near_users %}
+            <div class="rating-user-card">
+                <img src="/static/images/background.png" alt="Background Image" class="background-img">
+                <div class="rating-upper-part">
+                    <a href="/profile-other/{{near_user._id}}">
+                    {% if near_user.image %}
+                    <img src="data:image/png;base64,{{ near_user.image | b64encode }}" alt="Profile Picture"
+                        class="rating-profile-pic-profile">
+                    {% else %}
+                    <img src="/static/images/blank.webp" alt="alt-blank picture" class="rating-profile-pic-profile">
+                    {% endif %}
+                    </a>
+                </div>
+                <div class="rating-name">
+                    <a href="/profile-other/{{top_user._id}}" class="ratting-name"><p>{{top_user.name}}</p></a>
+                    {% if top_user.isMentor == true %}
+                            <span class="rating-is-mentor"><i class="fa-regular fa-circle-check"></i></span>
+                    {% endif %}
+                </div>
+                <div class="username-section">
+                    <p class="username-inside">@{{near_user.username}}</p>
+                </div>
+                <div class="stats-section">
+                    <i class="fa-solid fa-star"></i>
+                        <span class="rating-span">{{near_user.rating}}</span>
+                    <i class="fa-solid fa-coins"></i>
+                        <span>{{near_user.coins}}</span>
+                </div>
+                <div class="ration-location">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <p>{{near_user.location}}</p>
+                </div>
+                <div class="rating-diplay-skills">
+                    {% for skill in near_user.skills %}
+                        <span>{{skill}}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+
         
     </div>
     <script>

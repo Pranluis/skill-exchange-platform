@@ -515,25 +515,61 @@ def profile():
 def search_user():
     top_user_list = []
     users_list = []
-    top_users = list(mongo_db.users.find().sort('rating', -1).limit(6))
+    similar_user_list = []
 
-    for user in top_users:
-        user_id = str(user['_id'])  # Convert ObjectId to string
-        user_for_image = User.query.filter_by(id=user_id).first()  # Get the user from SQLite
+    current_user_data = mongo_db.users.find_one({"_id": current_user.id})
+    current_user_skills = current_user_data['skills']
 
-       
-        top_user_list.append({
-                "name": user.get('name'),
-                "username": user.get('username'),
-                "details": user.get('about'),
-                "image": user_for_image.image,  # Add the profile image from SQLite
-                "_id": user_id,
-                "isMentor":user.get('isMentor'),    
-                "location":user.get('location'),
-                "skills":user.get('skills'),
-                "rating":user.get('rating'),
-                "coins":user.get('coins')
+    if current_user_skills:
+        matching_users = mongo_db.users.find({"skills": {"$in": current_user_skills}}).sort("rating", -1) 
+
+        for user in matching_users:
+            user_id = str(user['_id'])  # Convert ObjectId to string
+            if user['_id'] != current_user.id:
+                user_for_image = User.query.filter_by(id=user_id).first()  # Get the user from SQLite
+
+                top_user_list.append({
+                            "name": user.get('name'),
+                            "username": user.get('username'),
+                            "details": user.get('about'),
+                            "image": user_for_image.image,  # Add the profile image from SQLite
+                            "_id": user_id,
+                            "isMentor":user.get('isMentor'),    
+                            "location":user.get('location'),
+                            "skills":user.get('skills'),
+                            "rating":user.get('rating'),
+                            "coins":user.get('coins')
+                })
+
+
+    current_user_data = mongo_db.users.find_one({'_id': current_user.id})
+    current_user_skills = current_user_data.get('skills', [])
+    current_user_location = current_user_data.get('location', '')
+
+    if current_user_location:
+        similar_users = mongo_db.users.find({
+            'location': current_user_location,
+            'skills': {'$in': current_user_skills}
         })
+
+        # Fetch the users from PostgreSQL to get their images
+        for user in similar_users:
+            user_id = str(user['_id'])
+            if user['_id'] != current_user.id:
+                user_for_image = User.query.filter_by(id=user_id).first()  # Convert ObjectId to string
+
+                similar_user_list.append({
+                    "name": user.get('name'),
+                    "username": user.get('username'),
+                    "details": user.get('about'),
+                    "image": user_for_image.image,  # Add the profile image from PostgreSQL
+                    "_id": user_id,
+                    "isMentor": user.get('isMentor'),
+                    "location": user.get('location'),
+                    "skills": user.get('skills'),
+                    "rating": user.get('rating'),
+                    "coins": user.get('coins')
+                })
 
 
     if request.method == 'POST':
@@ -571,10 +607,10 @@ def search_user():
 
 
 
-        return render_template('searchuser.html', users = users_list, top_users = top_user_list )
+        return render_template('searchuser.html', users = users_list, top_users = top_user_list, curr_user = current_user_data, near_user=similar_user_list )
         # return render_template('searchuser.html', users = results)
     
-    return render_template('searchuser.html', users = users_list, top_users = top_user_list)
+    return render_template('searchuser.html', users = users_list, top_users = top_user_list, curr_user = current_user_data)
        
 
 
