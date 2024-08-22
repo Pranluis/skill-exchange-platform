@@ -515,7 +515,6 @@ def profile():
 def search_user():
     top_user_list = []
     users_list = []
-    similar_user_list = []
 
     current_user_data = mongo_db.users.find_one({"_id": current_user.id})
     current_user_skills = current_user_data['skills']
@@ -544,11 +543,13 @@ def search_user():
 
     current_user_data = mongo_db.users.find_one({'_id': current_user.id})
     current_user_skills = current_user_data.get('skills', [])
-    # current_user_location = current_user_data.get('location', '')
+    current_user_location = current_user_data.get('location', '')
 
-    if current_user_skills:
+    similar_user_list = []
+
+    if current_user_location:
         similar_users = mongo_db.users.find({
-            # 'location': current_user_location,
+            'location': current_user_location,
             'skills': {'$in': current_user_skills}
         })
 
@@ -607,10 +608,10 @@ def search_user():
 
 
 
-        return render_template('searchuser.html', users = users_list, top_users = top_user_list, curr_user = current_user_data, near_user=similar_user_list )
+        return render_template('searchuser.html', users = users_list, top_users = top_user_list, curr_user = current_user_data, near_users=similar_user_list )
         # return render_template('searchuser.html', users = results)
     
-    return render_template('searchuser.html', users = users_list, top_users = top_user_list, curr_user = current_user_data)
+    return render_template('searchuser.html', users = users_list, top_users = top_user_list, curr_user = current_user_data , near_users=similar_user_list )
        
 
 
