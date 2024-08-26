@@ -122,12 +122,89 @@
 }
 
 .content .box2{
-    border-radius: 15px;
-    height: 920px;
     margin-left: 320px;
     width: 55%;
-    background-color: rgb(144, 119, 87);
+    
 }
+
+.add-feed-box{
+    border-radius: 8px;
+    width: 100%;
+    border: 1px solid rgb(209, 209, 209);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px 20px 10px 20px;
+}
+
+
+
+.add-feed-box .first-row{
+    width: 100%;
+    display: flex;
+    gap: 15px;
+}
+
+.add-feed-box img{
+    border-radius: 50%;
+}
+
+.add-feed-bnt{
+    width: 100%;
+    border: 1px solid rgb(209, 209, 209);
+    padding: 10px 20px 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    color: rgb(0, 0, 0);
+    border-radius: 25px;
+    text-align: left;
+}
+
+.second-row{
+    margin-top: 25px;
+}
+
+.ass-item-list{
+    margin-top: 20px;
+    display: flex;
+    padding: 0px 60px;
+    justify-content: space-between;
+}
+
+.ass-item-list button{
+    border: none;
+}
+
+.ass-item-list button:hover{
+    cursor: pointer;
+}
+
+.second-row p{
+    font-size: 20px;
+    font-weight: 600;
+}
+
+
+.project-list i{
+    color: rgb(77, 134, 200);
+    font-size: 23px;
+    margin-right: 9px;    
+}
+
+.project-list span{
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.mentorship i{
+    color: rgb(201, 105, 46);
+    font-size: 23px;
+    margin-right: 9px;    
+}
+
+.mentorship span{
+    font-size: 18px;
+    font-weight: 600;
+}
+
 
 .content .box3{
     position: fixed;

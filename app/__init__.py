@@ -20,7 +20,7 @@ def create_app():
     app = Flask(__name__)
     
     app.config['SECRET_KEY'] = os.getenv("APP_SECRET_KEY")
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://skillup_user:aYQsTNKjjDwSY86DBFuEVbQgeos9bPE5@dpg-cr1m48rqf0us73fphapg-a.singapore-postgres.render.com/skillup'
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("POSTGRESQL_DB")
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['UPLOAD_FOLDER'] = 'uploads/'
     app.config['SESSION_COOKIE_NAME'] = 'google-login-session'

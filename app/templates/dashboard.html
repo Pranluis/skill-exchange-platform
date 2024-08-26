@@ -149,7 +149,32 @@
 
         </div>
         <div class="box2">
-            TODO - FEED BOX
+            <div class="add-feed-box">
+                <div class="first-row">
+                    {% if current_user.image %}
+                        <img src="data:image/png;base64,{{ current_user.image | b64encode }}" alt="" width="40px"
+                            height="40px">
+                    {% else %}
+                        <img src="/static/images/blank.webp" alt="" width="40px" height="40px">
+                    {% endif %}
+                    <button class="add-feed-bnt" type="button" onclick=""> Start a post, Share in your community</button>
+                    
+                </div>
+                <div class="second-row">
+                    <p>Add Assignments</p>
+                    <div class="ass-item-list">
+                        <div class="project-list">
+                            <button type="button" onclick=""><i class="fa-solid fa-diagram-project"></i><span>Project</span></button>
+                        </div>
+                        <div class="mentorship">
+                            <button type="button" onclick=""><i class="fa-solid fa-chalkboard-user"></i><span>Request Mentor</span></button>
+                            
+                        </div>
+                    </div>
+                </div>
+
+           
+            </div>
         </div>
         <div class="box3">
             <div class="first-box-count">
