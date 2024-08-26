@@ -137,11 +137,12 @@ def authorize():
 @login_required
 def dashboard():
     user_data = mongo_db.users.find_one({"email": current_user.email})
+    user_count = mongo_db.users.count_documents({})
     if user_data:
         flash('Welcome to your dashboard!', 'success')
         user_data = mongo_db.users.find_one({'_id': current_user.id})
         messages = session.pop('_flashes', [])
-        return render_template('dashboard.html', data=current_user, user=user_data)
+        return render_template('dashboard.html', data=current_user, user=user_data , user_count = user_count)
     
     else:
         new_user = {
@@ -194,31 +195,36 @@ def dashboard():
         }
         mongo_db.users.insert_one(new_user)
         user_data = mongo_db.users.find_one({'_id': current_user.id})
-        return render_template('dashboard.html', data=current_user, user=user_data)
+        return render_template('dashboard.html', data=current_user, user=user_data, user_count = user_count)
 
 
-@main.route('/news')
+@main.route('/news', methods=['POST', 'GET'])
 @login_required
 def news():
     api_key = os.getenv('NEWS_API_KEY')
-    url = f'https://newsapi.org/v2/top-headlines?country=us&category=technology'
-    params = {  # You can change the country code as needed
-        'apiKey': api_key
+
+    # Default values
+    category = 'technology'
+    country = 'us'
+
+    if request.method == 'POST':
+        category = request.form.get('category', 'technology')
+        country = request.form.get('country', 'us')
+
+    url = f'https://newsapi.org/v2/top-headlines'
+    params = {
+        'apiKey': api_key,
+        'country': country,
+        'category': category
     }
     response = requests.get(url, params=params)
     news_data = response.json()
 
     articles = news_data.get('articles', [])
 
-    return render_template('news.html', articles=articles)
+    return render_template('news.html', articles=articles, category=category, country=country)
 
 
-@main.route('/rand')
-@login_required
-def rand():
-    messages = session.pop('_flashes', []) 
-
-    return render_template('maintemplate.html', data=current_user)
 
 
 @main.route('/profile/edit-about', methods=['POST'])

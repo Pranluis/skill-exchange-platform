@@ -10,6 +10,9 @@
 </head>
 
 <body>
+    {% extends "base.html" %}
+    {% block title %}Register{% endblock %}
+    {% block content %}
     {% include 'maintemplate.html' %}
     <div class="newscontent">
         {% include 'newscontent.html' %}
@@ -18,3 +21,4 @@
 </body>
 
 </html>
+{% endblock %}

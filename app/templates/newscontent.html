@@ -1,28 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/static/css/news.css">
+    <title>Dynamic News</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        .form-container {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .news-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .news-item {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .news-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .news-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .news-content {
+            padding: 20px;
+        }
+
+        .news-content h2 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #34495e;
+        }
+
+        .news-content p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .news-content a {
+            display: inline-block;
+            text-decoration: none;
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .news-content a:hover {
+            background-color: #2980b9;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #2c3e50;
+            color: white;
+            margin-top: 30px;
+        }
+
+        footer p {
+            margin: 0;
+        }
+    </style>
 </head>
+
 <body>
+    <header>
+        <h1>Technology News</h1>
+    </header>
+
     <div class="container">
-        <h1>Latest News</h1>
-        <div class="grid">
+        <div class="form-container">
+            <form method="POST" action="{{ url_for('main.news') }}">
+                <label for="country">Select Country:</label>
+                <select id="country" name="country">
+                    <option value="us" {% if country == 'us' %}selected{% endif %}>United States</option>
+                    <option value="in" {% if country == 'in' %}selected{% endif %}>India</option>
+                    <option value="gb" {% if country == 'gb' %}selected{% endif %}>United Kingdom</option>
+                    <option value="ca" {% if country == 'ca' %}selected{% endif %}>Canada</option>
+                    <!-- Add more countries as needed -->
+                </select>
+
+                <label for="category">Select Category:</label>
+                <select id="category" name="category">
+                    <option value="technology" {% if category == 'technology' %}selected{% endif %}>Technology</option>
+                    <option value="business" {% if category == 'business' %}selected{% endif %}>Business</option>
+                    <option value="sports" {% if category == 'sports' %}selected{% endif %}>Sports</option>
+                    <option value="entertainment" {% if category == 'entertainment' %}selected{% endif %}>Entertainment</option>
+                    <!-- Add more categories as needed -->
+                </select>
+
+                <button type="submit">Get News</button>
+            </form>
+        </div>
+
+        <div class="news-container">
             {% for article in articles %}
-                {% if article.urlToImage %}
-                <div class="card">
-                    <h2>{{ article.title }}</h2>
-                    <p>{{ article.description }}</p>
-                    {% if article.urlToImage %}
-                        <img src="{{ article.urlToImage }}" alt="Image">
-                    {% endif %}
-                    <a href="{{ article.url }}" target="_blank">Read more</a>
-                </div>
+            <div class="news-item">
+                {% if article['urlToImage'] %}
+                <img src="{{ article['urlToImage'] }}" alt="News Image" class="news-image">
+                {% else %}
+                <img src="default-image.jpg" alt="No Image Available" class="news-image">
                 {% endif %}
+                <div class="news-content">
+                    <h2>{{ article['title'] }}</h2>
+                    <p>{{ article['description'] if article['description'] else "No description available." }}</p>
+                    <a href="{{ article['url'] }}" target="_blank">Read More</a>
+                </div>
+            </div>
             {% endfor %}
         </div>
     </div>
+
+    <footer>
+        <p>&copy; 2024 Tech News | Powered by NewsAPI</p>
+    </footer>
 </body>
+
 </html>
