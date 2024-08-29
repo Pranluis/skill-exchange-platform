@@ -1,4 +1,6 @@
 Skill Exchange and Mentorship Platform: Skillup
+This Platform is live on servers hosted on Render and their databases also.
+
 
 This project is a dynamic skill exchange platform that fosters mentorship and professional growth by connecting users based on their skills and expertise. The platform allows users to create comprehensive profiles, highlighting their skills, experience, and professional details. Users can also mentor others, offering guidance in their areas of expertise.
 
