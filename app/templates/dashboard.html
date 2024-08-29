@@ -152,29 +152,39 @@
             <div class="add-feed-box">
                 <div class="first-row">
                     {% if current_user.image %}
-                        <img src="data:image/png;base64,{{ current_user.image | b64encode }}" alt="" width="40px"
-                            height="40px">
+                    <img src="data:image/png;base64,{{ current_user.image | b64encode }}" alt="" width="40px"
+                        height="40px">
                     {% else %}
-                        <img src="/static/images/blank.webp" alt="" width="40px" height="40px">
+                    <img src="/static/images/blank.webp" alt="" width="40px" height="40px">
                     {% endif %}
-                    <button class="add-feed-bnt" type="button" onclick=""> Start a post, Share in your community</button>
+                    <button class="add-feed-bnt" type="button" onclick="document.getElementById('postModal').style.display='block'"> Start a post, Share in your
+                        community</button>
+
+                <!-- post section -->
                     
+
+
+                <!--  -->
                 </div>
                 <div class="second-row">
                     <p>Add Assignments</p>
                     <div class="ass-item-list">
                         <div class="project-list">
-                            <button type="button" onclick=""><i class="fa-solid fa-diagram-project"></i><span>Project</span></button>
+                            <button type="button" onclick=""><i
+                                    class="fa-solid fa-diagram-project"></i><span>Project</span></button>
                         </div>
                         <div class="mentorship">
-                            <button type="button" onclick=""><i class="fa-solid fa-chalkboard-user"></i><span>Request Mentor</span></button>
-                            
+                            <button type="button" onclick=""><i class="fa-solid fa-chalkboard-user"></i><span>Request
+                                    Mentor</span></button>
+
                         </div>
                     </div>
                 </div>
 
-           
+
             </div>
+            <div class="horizontal-line"></div>
+            {% include 'feedpost.html' %}
         </div>
         <div class="box3">
             <div class="first-box-count">
@@ -209,14 +219,31 @@
         });
 
 
+        function submitPost() {
+            // Form submission logic
+            const postForm = document.getElementById('postForm');
+            const formData = new FormData(postForm);
+
+            // Simulate a form submission here or send data to the server
+            console.log("Post Title: ", formData.get('title'));
+            console.log("Domain: ", formData.get('domain'));
+            console.log("Image URL: ", formData.get('image'));
+            console.log("Content: ", formData.get('content'));
+
+            // Close the modal
+            document.getElementById('postModal').style.display = 'none';
+        }
+
+        // Close the modal when clicking outside of it
+        window.onclick = function (event) {
+            const modal = document.getElementById('postModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
     </script>
 </body>
 
 </html>
 {% endblock %}
-
-
-
-
-
-

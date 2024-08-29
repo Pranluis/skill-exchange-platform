@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+       
+        .dashboard-container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid rgb(209, 209, 209);   
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-details {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .user-details img {
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            margin-right: 15px;
+        }
+
+        .user-details .info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-details .info h3 {
+            margin: 0;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .user-details .info p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .feed-post {
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-header h2 {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .post-header .domain {
+            font-size: 14px;
+            color: #999;
+            background-color: #f0f0f0;
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+
+        .post-time {
+            font-size: 12px;
+            color: #999;
+            text-align: right;
+            margin-top: -10px;
+            margin-bottom: 20px;
+        }
+
+        .feed-post img {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .post-content p {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <div class="user-details">
+            <img src="/static/images/connect.jpg" alt="User Profile Picture">
+            <div class="info">
+                <h3>John Doe</h3>
+                <p>Software Engineer at XYZ Corp</p>
+                <p>San Francisco, CA</p>
+            </div>
+        </div>
+
+        <div class="feed-post">
+            <div class="post-header">
+                <h2>Breaking News in Tech</h2>
+                <div class="domain">Technology</div>
+            </div>
+            <div class="post-time">Posted on August 21, 2024, 10:00 AM</div>
+            <div class="post-content">
+                <p>This is a sample post about the latest trends in technology. It discusses recent advancements in AI and how it's shaping the future of software development.</p>
+            </div>
+            <img src="/static/images/background.png" alt="Post Image">
+        </div>
+    </div>
+</body>
+
+</html>
