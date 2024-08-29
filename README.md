@@ -57,4 +57,4 @@ This project is a dynamic **Skill Exchange and Mentorship Platform** designed to
 
 ---
 
-You can copy this markdown-formatted description directly into your `README.md` file on GitHub.
+
