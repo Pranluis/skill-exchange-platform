@@ -620,6 +620,35 @@ def search_user():
     return render_template('searchuser.html', users = users_list, top_users = top_user_list, curr_user = current_user_data , near_users=similar_user_list )
        
 
+@main.route('/post-feed', methods=['POST'])
+@login_required
+def create_post():
+    title = request.form.get('title')
+    domain = request.form.get('domain')
+    image_url = request.form.get('image_url')
+    content = request.form.get('content')
+    image_file = request.files.get('image_upload')
+
+    # Handle image upload
+    image_filename = None
+    if image_file and image_file.filename != '':
+        image_filename = secure_filename(image_file.filename)
+        image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], image_filename))
+
+    # Create post document
+    post = {
+        'title': title,
+        'domain': domain,
+        'image_url': image_url,
+        'image_filename': image_filename,
+        'content': content
+    }
+
+    # Insert into MongoDB
+    mongo_db.feeds.insert_one(post)
+
+    return redirect(url_for('success')) 
+
 
 @main.route('/profile-other/<int:id>')
 @login_required

@@ -94,10 +94,68 @@
       .bd-mode-toggle .dropdown-menu .active .bi {
         display: block !important;
       }
+
+      #splash-screen {
+            text-align: center;
+        }
+
+        #splash-screen h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #4a4a4a;
+            margin-bottom: 20px;
+        }
+
+        .spinner {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #3498db;
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            animation: spin 1.5s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Fading animation for text */
+        @keyframes fade {
+            0%, 100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        #splash-screen h1 {
+            animation: fade 2s infinite;
+        }
+
+        /* Content styles (hidden initially) */
+        #content {
+            display: none;
+        }
     </style>
 
     
     <!-- Custom styles for this template -->
+    <div id="splash-screen">
+        <h1>Loading...</h1>
+        <div class="spinner"></div>
+    </div>
+
+    
+
     <link href="/static/css/product.css" rel="stylesheet">
   </head>
   <body>
@@ -241,6 +299,15 @@
   </div>
 
 <script src="/static/js/bootstrap.bundle.min.js"></script>
+<script>
+    window.addEventListener('load', function () {
+            const splashScreen = document.getElementById('splash-screen');
+            const content = document.getElementById('content');
 
+            // Hide splash screen and display the actual content
+            splashScreen.style.display = 'none';
+            content.style.display = 'block';
+        });
+</script>
     </body>
 </html>

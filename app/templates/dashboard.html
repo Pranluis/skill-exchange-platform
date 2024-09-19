@@ -161,9 +161,46 @@
                         community</button>
 
                 <!-- post section -->
-                    
+                <div id="postModal" class="modal">
 
-
+                    <!-- Modal Content -->
+                    <div class="modal-content">
+                        <span class="close" id="closeModal" onclick="document.getElementById('postModal').style.display='none'">&times;</span>
+                        <div class="modal-header">Create New Post</div>
+                        <div class="modal-body">
+                            <form id="postForm" action="/post-feed" method="post" enctype="multipart/form-data">
+                                <!-- Post Title -->
+                                <label for="title">Post Title</label>
+                                <input type="text" id="title" name="title" required>
+            
+                                <!-- Domain (Searchable Input) -->
+                                <label for="domain">Domain</label>
+                                <div class="custom-dropdown">
+                                    <input type="text" id="domainInput" name="domain" autocomplete="off" placeholder="Type to search..." required>
+                                    <ul id="domainList">
+                                        <!-- Dynamic Domain Options -->
+                                    </ul>
+                                </div>
+            
+                                <!-- Image URL -->
+                                <label for="image_url">Image URL</label>
+                                <input type="text" id="image_url" name="image_url" placeholder="Enter Image URL">
+            
+                                <!-- Upload Image -->
+                                <label for="image_upload">or Upload Image</label>
+                                <input type="file" id="image_upload" name="image_upload" accept="image/*">
+            
+                                <!-- Post Content -->
+                                <label for="content">Post Content</label>
+                                <textarea id="content" name="content" rows="4" required></textarea>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" form="postForm">Submit</button>
+                        </div>
+                    </div>
+            
+                </div>
                 <!--  -->
                 </div>
                 <div class="second-row">
@@ -219,28 +256,49 @@
         });
 
 
-        function submitPost() {
-            // Form submission logic
-            const postForm = document.getElementById('postForm');
-            const formData = new FormData(postForm);
+        const domainInput = document.getElementById('domainInput');
+        const domainList = document.getElementById('domainList');
 
-            // Simulate a form submission here or send data to the server
-            console.log("Post Title: ", formData.get('title'));
-            console.log("Domain: ", formData.get('domain'));
-            console.log("Image URL: ", formData.get('image'));
-            console.log("Content: ", formData.get('content'));
+        // List of Domains (Managed in JavaScript)
+        const domains = ["Technology", "Education", "Health", "Business", "Entertainment", "Sports", "Science", "Finance", "Art", "Travel"];
 
-            // Close the modal
-            document.getElementById('postModal').style.display = 'none';
-        }
+        // Populate Domain List
+        function populateDomains(filteredDomains) {
+            domainList.innerHTML = '';
+            filteredDomains.forEach(domain => {
+                const li = document.createElement('li');
+                li.textContent = domain;
+                li.onclick = function () {
+                    domainInput.value = domain;
+                    domainList.style.display = 'none';
+                };
+                domainList.appendChild(li);
+            });
 
-        // Close the modal when clicking outside of it
-        window.onclick = function (event) {
-            const modal = document.getElementById('postModal');
-            if (event.target == modal) {
-                modal.style.display = "none";
+            if (filteredDomains.length > 0) {
+                domainList.style.display = 'block';
+            } else {
+                domainList.style.display = 'none';
             }
         }
+
+        // Event Listener for Input
+        domainInput.addEventListener('input', function () {
+            const query = domainInput.value.toLowerCase();
+            if (query) {
+                const filtered = domains.filter(domain => domain.toLowerCase().includes(query));
+                populateDomains(filtered);
+            } else {
+                domainList.style.display = 'none';
+            }
+        });
+
+        // Hide Domain List When Clicking Outside
+        document.addEventListener('click', function (event) {
+            if (!document.querySelector('.custom-dropdown').contains(event.target)) {
+                domainList.style.display = 'none';
+            }
+        });
 
     </script>
 </body>
