@@ -3,6 +3,8 @@
 
 This platform is live and hosted on Render with all databases. 
 
+# LINK: https://skillup-skill-exchange-platform.onrender.com
+
 This project is a dynamic **Skill Exchange and Mentorship Platform** designed to connect users based on their skills and expertise. It enables users to create comprehensive profiles, participate in mentorship programs, and stay informed about industry trends through a personalized news feed.
 
 ## **Key Features**
