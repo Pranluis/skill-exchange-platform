@@ -1,4 +1,5 @@
 import base64
+from pymongo import DESCENDING
 from datetime import datetime, timedelta
 from bson import ObjectId
 from bson.objectid import ObjectId
@@ -66,7 +67,7 @@ def login():
                 login_user(user, remember=remember)
                 return redirect(url_for('main.dashboard'))
             else:
-                flash('Login Unsuccessful. Please check email and password', 'danger')
+                flash('Login Unsuccessful. Please check email or password', 'danger')
     return render_template('login.html')
 
 
@@ -136,13 +137,38 @@ def authorize():
 @main.route('/dashboard')
 @login_required
 def dashboard():
+    messages = session.pop('_flashes', [])
     user_data = mongo_db.users.find_one({"email": current_user.email})
     user_count = mongo_db.users.count_documents({})
     if user_data:
         flash('Welcome to your dashboard!', 'success')
         user_data = mongo_db.users.find_one({'_id': current_user.id})
         messages = session.pop('_flashes', [])
-        return render_template('dashboard.html', data=current_user, user=user_data , user_count = user_count)
+        user_post_data = []
+        user_post = mongo_db.feeds.find().sort('timing', DESCENDING)
+        for post in user_post:
+            user_id = str(post['user_id'])
+            user_for_image = User.query.filter_by(id=user_id).first()
+
+            user_post_data.append({
+                    "name": post.get('name'),
+                    "title":post.get('title'),
+                    "domain":post.get('domain'),
+                    "image": user_for_image.image,  # Add the profile image from PostgreSQL
+                    'image_url': post.get('image_url'),
+                    'image_filename': post.get('image_filename'),
+                    'content': post.get('content'),
+                    'organization': post.get('organization'),
+                    'course': post.get('course'),
+                    'location': post.get('location'),
+                    "timing": post.get('time-date')
+                })
+            
+
+
+
+        user_post_data.reverse()
+        return render_template('dashboard.html', data=current_user, user=user_data , user_count = user_count, user_post_data = user_post_data)
     
     else:
         new_user = {
@@ -201,6 +227,8 @@ def dashboard():
 @main.route('/news', methods=['POST', 'GET'])
 @login_required
 def news():
+    messages = session.pop('_flashes', [])
+    flash("Welcome to news", 'success')
     api_key = os.getenv('NEWS_API_KEY')
 
     # Default values
@@ -628,6 +656,9 @@ def create_post():
     image_url = request.form.get('image_url')
     content = request.form.get('content')
     image_file = request.files.get('image_upload')
+    current_user_data = mongo_db.users.find_one({"_id": current_user.id})
+    formatted_timestamp = datetime.now().strftime('%B %d, %Y, %I:%M %p')
+
 
     # Handle image upload
     image_filename = None
@@ -635,19 +666,100 @@ def create_post():
         image_filename = secure_filename(image_file.filename)
         image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], image_filename))
 
+
+
+    if current_user_data['user_type'] == 'College student':
     # Create post document
-    post = {
-        'title': title,
-        'domain': domain,
-        'image_url': image_url,
-        'image_filename': image_filename,
-        'content': content
-    }
+        post = {
+            'user_id': current_user.id,
+            'title': title,
+            'domain': domain,
+            'image_url': image_url,
+            'image_filename': image_filename,
+            'content': content,
+            'name': current_user.name,
+            'organization': current_user_data.get('organization'),
+            'course': current_user_data.get('course'),
+            'location': current_user_data.get('location'),
+            'time-date': f"Posted on {formatted_timestamp}"
+        }
+
+        mongo_db.feeds.insert_one(post)
+
+    elif current_user_data['user_type'] == 'School Student':
+        post = {
+            'user_id': current_user.id,
+            'title': title,
+            'domain': domain,
+            'image_url': image_url,
+            'image_filename': image_filename,
+            'content': content,
+            'name':current_user.name,
+            'organization': current_user_data.get('school_organization'),
+            'course': current_user_data.get('school_class'),
+            'location': current_user_data.get('location'),
+            'time-date': f"Posted on {formatted_timestamp}"
+    
+        }
+
+        mongo_db.feeds.insert_one(post)
+    
+    elif current_user_data['user_type'] == 'Professional':
+        post = {
+            'user_id': current_user.id,
+            'title': title,
+            'domain': domain,
+            'image_url': image_url,
+            'image_filename': image_filename,
+            'content': content,
+            'name':current_user.name,
+            'organization': current_user_data.get('professional_organization'),
+            'course': current_user_data.get('professional_designation'),
+            'location': current_user_data.get('location'),
+            'time-date': f"Posted on {formatted_timestamp}"
+        }
+
+        mongo_db.feeds.insert_one(post)
+
+    elif current_user_data['user_type'] == 'Fresher':
+        post = {
+            'user_id': current_user.id,
+            'title': title,
+            'domain': domain,
+            'image_url': image_url,
+            'image_filename': image_filename,
+            'content': content,
+            'organization': current_user_data.get('fresher_organization'),
+            'course': current_user_data.get('fresher_course_specialization'),
+            'location': current_user_data.get('location'),
+            'time-date': f"Posted on {formatted_timestamp}"
+        }
+
+        mongo_db.feeds.insert_one(post)
+
+    elif current_user_data['user_type'] == 'Organizer':
+        post = {
+            'user_id': current_user.id,
+            'title': title,
+            'domain': domain,
+            'image_url': image_url,
+            'image_filename': image_filename,
+            'content': content,
+            'organization': current_user_data.get('organizer_organization'),
+            'course': current_user_data.get('organization_sector'),
+            'location': current_user_data.get('location'),
+            'time-date': f"Posted on {formatted_timestamp}"
+        }
+
+        mongo_db.feeds.insert_one(post)
+    
+    else:
+        flash('Please Complete your profile!', 'danger')
+
 
     # Insert into MongoDB
-    mongo_db.feeds.insert_one(post)
 
-    return redirect(url_for('success')) 
+    return redirect(url_for('main.dashboard')) 
 
 
 @main.route('/profile-other/<int:id>')
@@ -673,3 +785,6 @@ def b64encode_filter(data):
     if data:
         return base64.b64encode(data).decode('utf-8')
     return ''
+
+
+

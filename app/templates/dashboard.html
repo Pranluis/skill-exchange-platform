@@ -9,145 +9,7 @@
 </head>
 
 <body>
-    {% extends "base.html" %}
-    {% block title %}Register{% endblock %}
-    {% block content %}
-    <div class="navbar">
-        <div class="logo">
-            <img src="/static/images/logo.png" alt="logo" width="100" height="40">
-        </div>
-        <div class="otheritems">
-            <div class="navigator">
-                <ul>
-                    <li><a href="#"><i class="fa-solid fa-address-book"></i></a></li>
-                    <li><a href="#"><i class="fa-solid fa-calendar-days"></i></a></li>
-                    <li><a href="#"><i class="fa-regular fa-message"></i></a></li>
-
-                </ul>
-            </div>
-            <div class="profile">
-                <div class="profile-pic">
-                    {% if current_user.image %}
-                    <img src="data:image/png;base64,{{ current_user.image | b64encode }}" alt="" width="40px"
-                        height="40px">
-                    {% else %}
-                    <img src="/static/images/blank.webp" alt="" width="40px" height="40px">
-                    {% endif %}
-                </div>
-                <div class="name">
-                    <p>{{current_user.name}}</p>
-                </div>
-                <div class="downicon">
-                    <button id="dropdownButton" class="dropdown-button">
-                        <i class="fa-solid fa-caret-down"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="dropdown" id="dropdown">
-                <ul>
-
-                    <li><a href="{{url_for('main.profile')}}">
-                            <div class="iconbutton">
-                                <i class="fa-solid fa-user"></i>
-                                <span>Profile</span>
-                            </div>
-                        </a></li>
-                    <li><a href="#">
-                            <div class="iconbutton">
-                                <i class="fa-solid fa-lock"></i>
-                                <span>Change Password</span>
-                            </div>
-                        </a></li>
-                    <li></li>
-                    <li><a href="{{url_for('main.logout')}}">
-                            <div class="iconbutton">
-                                <i class="fa-solid fa-right-from-bracket"></i>
-                                <span>Logout</span>
-                            </div>
-                        </a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="content">
-        <div class="box1">
-            <div class="edit-button">
-                <a href="{{url_for('main.edit')}}"><i class="fa-solid fa-pen-to-square"></i></a>
-                <div class="tooltip">Edit Profile</div>
-            </div>
-            <div class="profile-main">
-                <div class="image">
-                    {% if current_user.image %}
-                    <img src="data:image/png;base64,{{ current_user.image | b64encode }}" alt="" width="100px"
-                        height="100px">
-                    {% else %}
-                    <img src="/static/images/blank.webp" alt="" width="100px" height="100px">
-                    {% endif %}
-                </div>
-                <div class="name-main">
-                    <p>{{current_user.name}}</p>
-                </div>
-                <div class="email-main">
-                    <p>{{current_user.email}}</p>
-                </div>
-                <div class="analytics">
-                    <div class="graph">
-                        <i class="fa-solid fa-chart-simple"></i>
-                        <span>{{user.leader_rank}}</span>
-                    </div>
-                    <div class="vertical-line"></div>
-                    <div class="ratings">
-                        <i class="fa-solid fa-star"></i>
-                        <span>{{user.rating}}</span>
-                    </div>
-                    <div class="vertical-line"></div>
-                    <div class="points">
-                        <i class="fa-solid fa-coins"></i>
-                        <span>{{user.coins}}</span>
-                    </div>
-                </div>
-            </div>
-            <div class="horizontal-line"></div>
-            <div class="menulist">
-                <a href="#">
-                    <div class="home">
-                        <i class="fa-solid fa-house"></i>
-                        <span>Home</span>
-                    </div>
-                </a>
-                <a href="#">
-                    <div class="course">
-                        <i class="fa-solid fa-book"></i>
-                        <span>Assignments</span>
-                    </div>
-                </a>
-                <a href="#">
-                    <div class="course">
-                        <i class="fa-solid fa-right-left"></i>
-                        <span>Skill Exchange</span>
-                    </div>
-                </a>
-                <a href="#">
-                    <div class="course">
-                        <i class="fa-solid fa-chalkboard-user"></i>
-                        <span>Mentorship</span>
-                    </div>
-                </a>
-                <a href="{{url_for('main.news')}}">
-                    <div class="course">
-                        <i class="fa-solid fa-newspaper"></i>
-                        <span>Latest News</span>
-                    </div>
-                </a>
-                <a href="{{url_for('main.search_user')}}">
-                    <div class="course">
-                        <i class="fa-solid fa-users"></i>
-                        <span>Search Users</span>
-                    </div>
-                </a>
-            </div>
-
-        </div>
+    {% include 'maindashtemplate.html' %}
         <div class="box2">
             <div class="add-feed-box">
                 <div class="first-row">
@@ -160,48 +22,7 @@
                     <button class="add-feed-bnt" type="button" onclick="document.getElementById('postModal').style.display='block'"> Start a post, Share in your
                         community</button>
 
-                <!-- post section -->
-                <div id="postModal" class="modal">
-
-                    <!-- Modal Content -->
-                    <div class="modal-content">
-                        <span class="close" id="closeModal" onclick="document.getElementById('postModal').style.display='none'">&times;</span>
-                        <div class="modal-header">Create New Post</div>
-                        <div class="modal-body">
-                            <form id="postForm" action="/post-feed" method="post" enctype="multipart/form-data">
-                                <!-- Post Title -->
-                                <label for="title">Post Title</label>
-                                <input type="text" id="title" name="title" required>
-            
-                                <!-- Domain (Searchable Input) -->
-                                <label for="domain">Domain</label>
-                                <div class="custom-dropdown">
-                                    <input type="text" id="domainInput" name="domain" autocomplete="off" placeholder="Type to search..." required>
-                                    <ul id="domainList">
-                                        <!-- Dynamic Domain Options -->
-                                    </ul>
-                                </div>
-            
-                                <!-- Image URL -->
-                                <label for="image_url">Image URL</label>
-                                <input type="text" id="image_url" name="image_url" placeholder="Enter Image URL">
-            
-                                <!-- Upload Image -->
-                                <label for="image_upload">or Upload Image</label>
-                                <input type="file" id="image_upload" name="image_upload" accept="image/*">
-            
-                                <!-- Post Content -->
-                                <label for="content">Post Content</label>
-                                <textarea id="content" name="content" rows="4" required></textarea>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" form="postForm">Submit</button>
-                        </div>
-                    </div>
-            
-                </div>
-                <!--  -->
+                {% include 'maindashfeed.html' %}
                 </div>
                 <div class="second-row">
                     <p>Add Assignments</p>
@@ -224,6 +45,27 @@
             {% include 'feedpost.html' %}
         </div>
         <div class="box3">
+            {% if user_count == 1 %}
+                <div class="first-box-count">
+                    <i class="fa-solid fa-users"></i>PEOPLE
+                    <div class="counts">
+                        <span>{{user_count}}</span>
+                        <p>Person in our community</p>
+                    </div>
+
+                </div>
+
+            {% elif user_count == 0 %}
+            <div class="first-box-count">
+                <i class="fa-solid fa-users"></i>PEOPLE
+                <div class="counts">
+                    
+                    <p>No one in our community</p>
+                </div>
+
+            </div>
+            
+            {% else %}
             <div class="first-box-count">
                 <i class="fa-solid fa-users"></i>PEOPLE
                 <div class="counts">
@@ -232,6 +74,7 @@
                 </div>
 
             </div>
+            {% endif %}
         </div>
     </div>
     <script>
@@ -300,8 +143,42 @@
             }
         });
 
+
+        document.addEventListener("DOMContentLoaded", function () {
+        const imageUrlInput = document.getElementById("image_url");
+        const imageUploadInput = document.getElementById("image_upload");
+
+        // Function to handle input changes
+        function toggleInputs() {
+            if (imageUrlInput.value.trim() !== "") {
+                imageUploadInput.disabled = true;
+            } else if (imageUploadInput.files.length > 0) {
+                imageUrlInput.disabled = true;
+            } else {
+                imageUrlInput.disabled = false;
+                imageUploadInput.disabled = false;
+            }
+        }
+
+        // Event listeners for both inputs
+        imageUrlInput.addEventListener("input", toggleInputs);
+        imageUploadInput.addEventListener("change", toggleInputs);
+
+        // Handle clearing inputs
+        imageUrlInput.addEventListener("focus", function () {
+            if (imageUrlInput.value.trim() === "") {
+                toggleInputs();
+            }
+        });
+
+        imageUploadInput.addEventListener("click", function () {
+            if (imageUploadInput.files.length === 0) {
+                toggleInputs();
+            }
+        });
+    });
     </script>
+
 </body>
 
 </html>
-{% endblock %}

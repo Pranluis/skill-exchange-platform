@@ -97,28 +97,42 @@
 </head>
 
 <body>
-    <div class="dashboard-container">
-        <div class="user-details">
-            <img src="/static/images/connect.jpg" alt="User Profile Picture">
-            <div class="info">
-                <h3>John Doe</h3>
-                <p>Software Engineer at XYZ Corp</p>
-                <p>San Francisco, CA</p>
+    {% if not user_post_data %}
+        <h2>No Post</h2>
+    {% else %}
+    {% for post in user_post_data %}
+    
+    
+    
+        <div class="dashboard-container">
+            <div class="user-details">
+                {% if post.image %}
+                    <img src="data:image/png;base64,{{ post.image | b64encode }}" alt="Profile Picture"
+                        class="rating-profile-pic-profile">
+                {% else %}
+                    <img src="/static/images/blank.webp" alt="alt-blank picture" class="rating-profile-pic-profile">
+                {% endif %}
+                <div class="info">
+                    <h3>{{post.name}}</h3>
+                    <p>{{post.course}} at {{post.organization}}</p>
+                    <p>{{post.location}}</p>
+                </div>
             </div>
-        </div>
 
-        <div class="feed-post">
+            <div class="feed-post">
             <div class="post-header">
-                <h2>Breaking News in Tech</h2>
-                <div class="domain">Technology</div>
+                <h2>{{post.title}}</h2>
+                <div class="domain">{{post.domain}}</div>
             </div>
-            <div class="post-time">Posted on August 21, 2024, 10:00 AM</div>
+            <div class="post-time">{{post.timing}}</div>
             <div class="post-content">
-                <p>This is a sample post about the latest trends in technology. It discusses recent advancements in AI and how it's shaping the future of software development.</p>
+                <p>{{post.content}}</p>
             </div>
-            <img src="/static/images/background.png" alt="Post Image">
+            <img src="{{post.image_url}}" alt="Post Image">
         </div>
     </div>
+    {% endfor %}
+    {% endif %}
 </body>
 
 </html>
