@@ -788,3 +788,9 @@ def b64encode_filter(data):
 
 
 
+@main.route('/show-certificate/<int:id>')
+@login_required
+def showCertificate(id):
+    user_certificates = list(mongo_db.certificates.find({'user_id': id}))
+
+    return render_template('showcert.html', certs = user_certificates )

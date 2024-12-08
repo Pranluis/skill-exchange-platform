@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show certificate</title>
+    <style>
+        .certificate-box {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid rgb(190, 186, 186);
+            transition: transform 0.2s;
+        }
+
+        .certificate-box:hover {
+            transform: scale(1.02);
+        }
+
+        .certificate-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .certificate-details {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .certificate-actions {
+            margin-top: 15px;
+        }
+
+        .certificate-actions button {
+            padding: 10px 15px;
+            margin-right: 10px;
+            font-size: 14px;
+            color: #fff;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .certificate-actions button:hover {
+            background-color: #0056b3;
+        }
+
+        .certificate-actions button:last-child {
+            background-color: #dc3545;
+        }
+
+        .certificate-actions button:last-child:hover {
+            background-color: #c82333;
+        }
+
+        .cert-form p {
+            margin-bottom: 20px;
+        }
+
+        
+    </style>
+</head>
+
+<body>
+    {% include 'maintemplate.html' %}
+    {% for cert in certs %}
+    <div class="certificate-box">
+        <div class="certificate-title">{{ cert.title }}</div>
+        <div class="certificate-details">Institution: {{ cert.institution }}</div>
+        <div class="certificate-details">Issue Date: {{ cert.issue_date }}</div>
+        <div class="certificate-details">Description: {{ cert.description }}</div>
+        <div class="certificate-details">Skills Learned: {{ cert.skills | join(', ') }}</div>
+        <div class="certificate-actions">
+            <button onclick="viewPDF('/certificate/{{ cert.file_id }}')">View PDF</button>
+            <button onclick="downloadPDF('/certificate/{{ cert.file_id }}')">Download PDF</button>
+        </div>
+    </div>
+    <script>
+        function viewPDF(pdfUrl) {
+            window.open(pdfUrl, '_blank');
+        }
+
+        function downloadPDF(pdfUrl) {
+            const link = document.createElement('a');
+            link.href = pdfUrl;
+            link.download = pdfUrl.split('/').pop();
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+    {% endfor %}
+</body>
+
+</html>
