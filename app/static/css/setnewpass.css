@@ -1,0 +1,37 @@
+.setpassword input{
+    border-radius: 4px;
+    width: 290px;
+    height: 50px;
+    border: none;
+    outline: none;
+    border: 2px solid #7b777d;
+    font-size: 14px;
+    padding: 8px 15px 8px 14px;
+    background: transparent;
+}
+
+.formline{
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+.submitbtn {
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    color: white;
+    background: #7107eb;
+    font-weight: 900;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding: 13px 120px 13px 120px;
+}
+
+.submitbtn:hover {
+    background-color: #b50cf7;
+    cursor: pointer;
+}

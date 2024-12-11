@@ -25,6 +25,7 @@ client = MongoClient(uri, server_api=ServerApi('1'))
 mongo_db = client.get_database('skillexchangedatabase')
 
 main = Blueprint('main', __name__)
+
 logging.basicConfig(level=logging.DEBUG)
 
 fs = gridfs.GridFS(mongo_db)
@@ -794,3 +795,34 @@ def showCertificate(id):
     user_certificates = list(mongo_db.certificates.find({'user_id': id}))
 
     return render_template('showcert.html', certs = user_certificates )
+
+
+@main.route('/change-password', methods=['POST','GET'])
+@login_required
+def changePass():
+    messages = session.pop('_flashes', [])
+    if request.method == 'POST':
+        currpass        = request.form.get('currpass')
+        newsetPass      = request.form.get('newpass')
+        newsetconfmpass = request.form.get('confmpass')
+
+        if current_user.provider != 'google':
+            if check_password_hash(current_user.password, currpass) and newsetPass == newsetconfmpass and newsetPass != current_user.password:
+                hashed_newsetpass = generate_password_hash(newsetPass, method='pbkdf2:sha256')
+                current_user.password = hashed_newsetpass
+                db.session.commit()
+                flash('Password changed successfully','success')
+                
+
+            elif check_password_hash(current_user.password, currpass) == False:
+                flash('You entered wrong current password','danger')
+                
+
+            else:
+                flash('New password should be same as confirm new password', 'danger')            
+
+        else:
+            flash("You are logged in with google you can't set new password", 'danger')
+
+
+    return render_template('setnewpass.html')

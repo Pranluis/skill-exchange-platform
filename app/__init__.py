@@ -10,7 +10,6 @@ import os
 
 
 load_dotenv()
-
 db = SQLAlchemy()
 login_manager = LoginManager()
 oauth = OAuth()
@@ -39,6 +38,9 @@ def create_app():
 
     from .routes import main as main_blueprint
     app.register_blueprint(main_blueprint)
+
+    from .admin import admin as admin_blueprint
+    app.register_blueprint(admin_blueprint)
 
     with app.app_context():
         db.create_all()

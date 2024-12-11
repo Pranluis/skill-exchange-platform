@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Password</title>
+    <link rel="stylesheet" href="/static/css/setnewpass.css">
+    <style>
+        .container {
+            width: 100%;
+            margin-left: 40px;
+            margin: 20px auto;
+            padding: 20px 20px 20px 85px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    {% extends "base.html" %}
+    {% block title %}Register{% endblock %}
+    {% block content %}
+    {% include 'maintemplate.html' %}
+    <div class="container">
+        <div class="row0">
+            <div class="heading">
+                <h1>
+                    <i class="fa-solid fa-pen-to-square"></i> Change Password
+                </h1>
+            </div>
+        </div>
+
+        <div class="row1">
+            <div class="setpassword">
+                <form action="{{url_for('main.changePass')}}" method="POST">
+                    <div class="formline">
+                        <div>
+                            <p>Current Password</p>
+                            <input type="password" id="currpass" name="currpass" required>
+                        </div>
+                        <div>
+                            <p>New Password</p>
+                            <input type="password" id="newpass" name="newpass" required>
+                        </div>
+                        <div>
+                            <p>Confirm new Password</p>
+                            <input type="password" name="confmpass" id="confmpass" required>
+                        </div>
+                        <div class="subbtn">
+                            <button type="submit" class="submitbtn">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+{% endblock %}
