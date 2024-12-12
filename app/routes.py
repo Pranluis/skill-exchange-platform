@@ -47,6 +47,7 @@ google = oauth.register(
 
 
 
+
 @main.route('/')
 def index():
     return render_template('main.html')
@@ -55,7 +56,6 @@ def index():
 @main.route('/login', methods=['GET', 'POST'])
 def login():
     
-    messages = session.pop('_flashes', [])
 
     if request.method == 'POST':
         email = request.form.get('email')
@@ -89,27 +89,67 @@ def signup():
         password = request.form.get('password')
         confirm_password = request.form.get('confirm-password')
 
+
         user = User.query.filter_by(email=email).first()
 
         if user:
             flash("Email address already registered.", 'danger')
         
         else:
-            # generated_otp = generate_unique_otp()
-            # send_confirmation_mail(current_user.email, generated_otp)
             if password == confirm_password and len(password) >= 6: 
-                hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
-                new_user = User(name=name, email=email, password=hashed_password, provider='local')
-                db.session.add(new_user)
-                db.session.commit()
-                return redirect(url_for('main.login'))
+                session['name']     =  name
+                session['email']    =  email
+                session['password'] =  password 
+
+                # hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
+                # new_user = User(name=name, email=email, password=hashed_password, provider='local')
+                # db.session.add(new_user)
+                # db.session.commit()
+                return redirect(url_for('main.signupverf'))
             else:
                 flash('Passwords do not match the requirements!', 'danger')
 
     return render_template('register.html')
 
 
+@main.route('/signup/verification', methods=['POST', 'GET'])
+def signupverf():
+    # Generate OTP and store it in the session if it's a GET request
+    if request.method == 'GET':
+        generated_otp = generate_unique_otp()
+        session['generated_otp'] = str(generated_otp)  # Store OTP in session as string
+        send_confirmation_mail(session['email'], generated_otp)
+    
+    if request.method == 'POST':
+        # Collect entered OTP
+        entered_otp = (
+            request.form.get('otp-input1', '') +
+            request.form.get('otp-input2', '') +
+            request.form.get('otp-input3', '') +
+            request.form.get('otp-input4', '')
+        )
 
+        # Compare entered OTP with the one stored in the session
+        if session.get('generated_otp') != entered_otp:
+            flash('Please enter the correct OTP. A new email has been sent for verification.', 'danger')
+            return redirect(url_for('main.signupverf'))
+
+        # If OTP is correct, proceed to create a new user
+        hashed_password = generate_password_hash(session['password'], method='pbkdf2:sha256')
+        new_user = User(name=session['name'], email=session['email'], password=hashed_password, provider='local')
+        db.session.add(new_user)
+        db.session.commit()
+
+        # Clear session data after successful signup
+        session.pop('name', None)
+        session.pop('email', None)
+        session.pop('password', None)
+        session.pop('generated_otp', None)  # Remove OTP from session
+        
+        flash('Account created successfully. Please log in.', 'success')
+        return redirect(url_for('main.login'))
+
+    return render_template('email_verf.html')
 
 
 @main.route('/login/google')
@@ -182,7 +222,7 @@ def dashboard():
         return render_template('dashboard.html', data=current_user, user=user_data , user_count = user_count, user_post_data = user_post_data)
     
     else:
-        send_welcome_mail(current_user.email)
+        send_welcome_mail(current_user.email, current_user.name)
         new_user = {
             "_id":current_user.id,
             "name":current_user.name,
