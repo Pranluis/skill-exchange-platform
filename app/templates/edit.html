@@ -7,8 +7,53 @@
     <title>Document</title>
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
-            const skills = ["Python", "JavaScript", "HTML", "CSS", "Java", "C++"];
-            const domains = ["Web Development", "Data Science", "Cyber Security", "Machine Learning", "Marketing", "Sales"];
+            const skills = [
+                "Python", "JavaScript", "HTML", "CSS", "Java", "C++", "SQL", "NoSQL",
+                "React", "Angular", "Vue.js", "Django", "Flask", "Spring Boot", "Node.js",
+                "Machine Learning", "Deep Learning", "Data Science", "Artificial Intelligence",
+                "Big Data", "Hadoop", "Spark", "Tableau", "Power BI", "Data Visualization",
+                "Cybersecurity", "Ethical Hacking", "Penetration Testing", "Blockchain",
+                "Cryptography", "Cloud Computing", "AWS", "Azure", "Google Cloud Platform",
+                "DevOps", "CI/CD", "Docker", "Kubernetes", "Git", "GitHub", "GitLab",
+                "Mobile App Development", "Android", "iOS", "React Native", "Flutter",
+                "Game Development", "Unity", "Unreal Engine", "AR/VR",
+                "Embedded Systems", "IoT", "Robotics", "Hardware Design",
+                "UI/UX Design", "Graphic Design", "Adobe Photoshop", "Adobe Illustrator",
+                "Video Editing", "3D Modeling", "Animation",
+                "Soft Skills", "Team Management", "Problem Solving", "Communication",
+                "Leadership", "Time Management", "Critical Thinking", "Adaptability",
+                "Business Analysis", "Project Management", "Agile Methodologies",
+                "Networking", "Linux Administration", "Windows Server", "Virtualization",
+                "Database Management", "MongoDB", "PostgreSQL", "Oracle DB", "MySQL",
+                "Shell Scripting", "Bash", "PowerShell", "Automation",
+                "Content Writing", "SEO", "Digital Marketing", "Social Media Management",
+                "Financial Analysis", "Accounting", "Stock Market Analysis",
+                "Foreign Languages", "Translation", "Teaching", "Public Speaking"
+            ];
+            const domains = [
+                "Artificial Intelligence (AI)", "Data Science", "Web Development",
+                "Cybersecurity", "Cloud Computing", "Machine Learning",
+                "Internet of Things (IoT)", "Blockchain", "Big Data Analytics",
+                "Game Development", "Augmented Reality (AR) and Virtual Reality (VR)",
+                "Software Engineering", "Mobile App Development",
+                "UI/UX Design", "Full Stack Development", "Embedded Systems",
+                "Robotics", "DevOps", "Digital Marketing", "SEO and SEM",
+                "Content Writing", "E-commerce", "Finance", "Human Resource Management",
+                "Operations Management", "Supply Chain Management",
+                "Business Analytics", "Entrepreneurship", "Event Management",
+                "Public Relations", "Media and Journalism", "Mass Communication",
+                "Hospitality Management", "Tourism Management", "Fashion Designing",
+                "Interior Designing", "Graphic Designing", "Fine Arts",
+                "Music and Performing Arts", "Photography", "Film Making",
+                "Biotechnology", "Agriculture", "Environmental Science",
+                "Marine Biology", "Astrophysics", "Actuarial Science",
+                "Healthcare Management", "Pharmaceutical Sciences",
+                "Sports Management", "Law (Corporate, Criminal, Civil)",
+                "Education and Teaching", "Linguistics and Foreign Languages",
+                "Psychology", "Sociology", "Anthropology", "Political Science",
+                "Economics", "History and Archaeology", "Philosophy",
+                "Library Science", "Counseling and Guidance", "Social Work"
+            ];
 
             const skillsInput = document.getElementById('skills_input');
             const skillsList = document.getElementById('skills_list');
@@ -525,7 +570,47 @@
     }
 
     // Sample positions for the dropdown
-    const positions = ["Software Engineer", "Data Scientist", "Product Manager", "Designer", "Marketing Manager"];
+    const positions = [
+        "Intern", "Trainee", "Junior Developer", "Developer",
+        "Senior Developer", "Team Lead", "Software Engineer",
+        "Senior Software Engineer", "Technical Architect",
+        "Principal Engineer", "Consultant", "Project Manager",
+        "Product Manager", "Program Manager", "Delivery Manager",
+        "Chief Technology Officer (CTO)", "Chief Executive Officer (CEO)",
+        "Chief Operating Officer (COO)", "Chief Financial Officer (CFO)",
+        "Data Analyst", "Data Scientist", "Business Analyst",
+        "Research Analyst", "System Administrator",
+        "Network Engineer", "Database Administrator",
+        "Cybersecurity Specialist", "Cloud Architect",
+        "Machine Learning Engineer", "AI Specialist",
+        "UI/UX Designer", "Graphic Designer", "Web Designer",
+        "Marketing Executive", "Marketing Manager",
+        "Sales Executive", "Sales Manager",
+        "Human Resources Executive", "Human Resources Manager",
+        "Recruiter", "Operations Manager", "Finance Manager",
+        "Accountant", "Auditor", "Legal Advisor",
+        "Corporate Trainer", "Content Writer", "Technical Writer",
+        "Quality Assurance Analyst", "Quality Assurance Manager",
+        "Customer Support Executive", "Customer Support Manager",
+        "Field Officer", "Branch Manager", "General Manager",
+        "Director", "Vice President", "Partner", "Founder",
+        "Co-Founder", "Scrum Master", "Agile Coach",
+        "Test Engineer", "Automation Engineer",
+        "Game Developer", "Game Designer", "Animator",
+        "Sound Engineer", "Civil Engineer", "Mechanical Engineer",
+        "Electrical Engineer", "Biomedical Engineer",
+        "Research Scientist", "Lab Technician", "Teacher",
+        "Lecturer", "Professor", "Principal",
+        "School Counselor", "Clinical Psychologist",
+        "Doctor", "Surgeon", "Pharmacist",
+        "Nurse", "Healthcare Administrator",
+        "Construction Manager", "Site Engineer",
+        "Interior Designer", "Fashion Designer",
+        "Event Manager", "Media Planner", "Journalist",
+        "Editor", "Publisher", "Photographer",
+        "Videographer", "Social Media Manager",
+        "Digital Marketing Specialist", "E-commerce Manager"
+    ];
 
     // Elements for the dropdown
     const positionInput = document.getElementById('position');

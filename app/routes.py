@@ -18,6 +18,10 @@ from werkzeug.utils import secure_filename
 from app.main_func import generate_unique_id, get_work_exp, del_work_exp, college_date_only, pro_data_only, fresher_data_only, school_data_only, organizer_data_only
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
+from app.mail_service import send_welcome_mail, send_confirmation_mail, generate_unique_otp
+
+
+
 
 uri = os.getenv("MONGO_DB_KEY")
 
@@ -39,6 +43,8 @@ google = oauth.register(
     client_kwargs={'scope': 'openid email profile'},
     server_metadata_url='https://accounts.google.com/.well-known/openid-configuration'
 )
+
+
 
 
 @main.route('/')
@@ -89,8 +95,9 @@ def signup():
             flash("Email address already registered.", 'danger')
         
         else:
+            # generated_otp = generate_unique_otp()
+            # send_confirmation_mail(current_user.email, generated_otp)
             if password == confirm_password and len(password) >= 6: 
-
                 hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
                 new_user = User(name=name, email=email, password=hashed_password, provider='local')
                 db.session.add(new_user)
@@ -100,6 +107,9 @@ def signup():
                 flash('Passwords do not match the requirements!', 'danger')
 
     return render_template('register.html')
+
+
+
 
 
 @main.route('/login/google')
@@ -172,6 +182,7 @@ def dashboard():
         return render_template('dashboard.html', data=current_user, user=user_data , user_count = user_count, user_post_data = user_post_data)
     
     else:
+        send_welcome_mail(current_user.email)
         new_user = {
             "_id":current_user.id,
             "name":current_user.name,
@@ -222,7 +233,8 @@ def dashboard():
         }
         mongo_db.users.insert_one(new_user)
         user_data = mongo_db.users.find_one({'_id': current_user.id})
-        return render_template('dashboard.html', data=current_user, user=user_data, user_count = user_count)
+        return redirect(url_for('main.dashboard'))
+        
 
 
 @main.route('/news', methods=['POST', 'GET'])
