@@ -1,7 +1,6 @@
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 import os
 import random
 
