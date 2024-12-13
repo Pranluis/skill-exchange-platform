@@ -55,8 +55,6 @@ def index():
 
 @main.route('/login', methods=['GET', 'POST'])
 def login():
-    
-
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
@@ -100,11 +98,6 @@ def signup():
                 session['name']     =  name
                 session['email']    =  email
                 session['password'] =  password 
-
-                # hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
-                # new_user = User(name=name, email=email, password=hashed_password, provider='local')
-                # db.session.add(new_user)
-                # db.session.commit()
                 return redirect(url_for('main.signupverf'))
             else:
                 flash('Passwords do not match the requirements!', 'danger')
@@ -188,7 +181,7 @@ def authorize():
 @main.route('/dashboard')
 @login_required
 def dashboard():
-    messages = session.pop('_flashes', [])
+    flash('Welcome to your dashboard! Please complete the profile using edit button on left', 'success')
     user_data = mongo_db.users.find_one({"email": current_user.email})
     user_count = mongo_db.users.count_documents({})
     if user_data:
@@ -223,6 +216,7 @@ def dashboard():
     
     else:
         send_welcome_mail(current_user.email, current_user.name)
+        flash('Welcome to your dashboard!', 'success')
         new_user = {
             "_id":current_user.id,
             "name":current_user.name,
@@ -281,7 +275,7 @@ def dashboard():
 @login_required
 def news():
     messages = session.pop('_flashes', [])
-    flash("Welcome to news", 'success')
+    flash("Welcome to tech news", 'success')
     api_key = os.getenv('NEWS_API_KEY')
 
     # Default values
@@ -339,11 +333,11 @@ def edit_about():
 
     }
     mongo_db.users.update_one({"_id": current_user.id}, {"$set": update_user})
+    flash('User skills updated successfully!', 'success')
     user_data = mongo_db.users.find_one({'_id': current_user.id})
     experiences = get_work_exp(current_user.id)
 
-    return render_template('edit.html', data=current_user, user=user_data, experiences=experiences)
-
+    return redirect(url_for('main.edit'))
 
 
 @main.route('/work_experience', methods=['POST', 'GET'])
@@ -369,6 +363,7 @@ def add_work_experience():
             'description':des
         }
         mongo_db.work_experience.insert_one(new_work_exp)
+        flash('User experience added successfully', 'success')
         user_data = mongo_db.users.find_one({'_id': current_user.id})
 
     experiences = get_work_exp(current_user.id)
@@ -380,7 +375,7 @@ def add_work_experience():
 def delete_work_experience(work_id):
     user_id = current_user.id
     del_work_exp(work_id, user_id)
-
+    flash('User experience deleted successfully!', 'info')
     return redirect(url_for('main.edit'))
 
 
@@ -391,21 +386,17 @@ def delete_certificate(file_id):
         object_id = ObjectId(file_id)
         
         fs.delete(object_id)
-        logging.info(f"File with ID {file_id} deleted from GridFS")
         
         result = mongo_db.certificates.delete_one({'file_id': file_id})
         if result.deleted_count == 0:
-            logging.warning(f"No document found with file_id {file_id}")
             return jsonify({'message': 'Document not found'}), 404
         
-        logging.info(f"Document with file_id {file_id} deleted from MongoDB")
+        flash('Certificate deleted successfully!','info')
         return jsonify({'message': 'Certificate deleted successfully'}), 200
     
     except gridfs.errors.NoFile:
-        logging.error(f"File with ID {file_id} not found in GridFS")
         return jsonify({'message': 'File not found'}), 404
     except Exception as e:
-        logging.error(f"Error deleting certificate: {e}")
         return jsonify({'message': 'Internal server error'}), 500
 
 
@@ -465,7 +456,6 @@ def get_certificate(file_id):
 @main.route('/profile/edit', methods=['GET', 'POST'])
 @login_required
 def edit():
-    messages = session.pop('_flashes', [])
     user_data = mongo_db.users.find_one({"_id": current_user.id})
     experiences = get_work_exp(current_user.id)
     user_certificates = list(mongo_db.certificates.find({'user_id': current_user.id}))
@@ -504,7 +494,6 @@ def edit():
         image_data = None
         if image and image.filename != '':
             image_data = image.read()
-            print(f"Image Data Length: {len(image_data)}")  # Debug statement to print the length of image data
         else:
             print("No image uploaded or image filename is empty") 
 

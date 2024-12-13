@@ -576,3 +576,202 @@
     fill: #000;
 }
 
+
+@media (max-width: 768px) {
+    /* Tablet View */
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px;
+    }
+
+    .navbar .otheritems {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+
+    .navbar .otheritems .navigator ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .content {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .content .box1 {
+        width: 100%;
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    .content .box2 {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .content .box3 {
+        width: 100%;
+        height: auto;
+    }
+
+    .add-feed-box {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Mobile View */
+    .navbar {
+        padding: 10px;
+        box-shadow: none;
+    }
+
+    .navbar .otheritems .profile {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .navbar .otheritems .navigator ul {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+
+    .content {
+        padding: 5px;
+    }
+
+    .content .box1,
+    .content .box2,
+    .content .box3 {
+        width: 100%;
+        margin: 0;
+        position: relative;
+    }
+
+    .add-feed-box {
+        padding: 8px;
+    }
+
+    .ass-item-list {
+        flex-direction: column;
+        padding: 0;
+        gap: 10px;
+    }
+
+    .first-box-count {
+        padding: 8px;
+    }
+
+    .counts span {
+        font-size: large;
+    }
+}
+
+/* Responsive CSS for screens between 700px and 1500px */
+@media (max-width: 1500px) and (min-width: 700px) {
+    /* Navbar */
+    .navbar {
+        padding: 15px 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+    }
+
+    .navbar .otheritems {
+        gap: 20px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .navbar .otheritems .navigator ul {
+        gap: 15px;
+        font-size: 1rem;
+    }
+
+    /* Content Section */
+    .content {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+        padding: 10px;
+    }
+
+    .content .box1, 
+    .content .box2, 
+    .content .box3 {
+        width: 45%; /* Two-column layout */
+        margin: 10px auto;
+        height: auto;
+        background-color: #f9f9f9;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .content .box2 {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Add Feed Box */
+    .add-feed-box {
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+        width: 100%;
+        max-width: 700px;
+        margin: 20px auto;
+    }
+
+    /* Assignment List */
+    .ass-item-list {
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 10px;
+    }
+
+    .ass-item-list .ass-item {
+        width: 48%;
+        padding: 10px;
+        border-radius: 8px;
+        background-color: #eef1f5;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Counts and Other Elements */
+    .counts span {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .first-box-count {
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #fff;
+    }
+
+    /* Buttons and Interactive Elements */
+    .btn {
+        font-size: 1rem;
+        padding: 10px 15px;
+        border-radius: 6px;
+        background-color: #007bff;
+        color: #fff;
+        text-align: center;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+        background-color: #0056b3;
+    }
+}
+
+

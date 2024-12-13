@@ -20,6 +20,7 @@ def admin_dashboard():
 def delete_user(user_id):
     user = User.query.get(user_id)
     if user:
+        mongo_db.user.delete_one('_id', user_id)
         db.session.delete(user)
         db.session.commit()
         flash(f"User {user_id} deleted successfully.", "success")

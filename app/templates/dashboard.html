@@ -9,6 +9,9 @@
 </head>
 
 <body>
+    {% extends "base.html" %}
+    {% block title %}Register{% endblock %}
+    {% block content %}
     {% include 'maindashtemplate.html' %}
         <div class="box2">
             <div class="add-feed-box">
@@ -182,3 +185,4 @@
 </body>
 
 </html>
+{% endblock %}
